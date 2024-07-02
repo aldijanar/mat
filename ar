@@ -1,0 +1,877 @@
+%% 1 Nacrtati četverostranu piramidu čija je dužina stranica osnove a= 3,
+% a visina piramide h=4? Izračunati površinu i zapreminu piramide.
+a=3;
+h=4;
+P=a^2 + 2*a*h;
+V=a^2*h./3;
+fprintf('Povrsina je:');
+disp(P);
+fprintf('Zapremina je:');
+disp(V);
+x = [0 3 3 0];
+y = [0 0 3 3];
+z = [0 0 0 0];
+patch(x,y,z,'y');
+grid on;
+axis([-2 5 -2 5]);
+xlabel('x-osa');
+ylabel('y-osa');
+zlabel('z-osa');
+x = [0 3 1.5];
+y = [0 0 1.5];
+z = [0 0 4];
+patch(x,y,z,'r');
+grid on;
+axis([-2 5 -2 5]);
+xlabel('x-osa');
+ylabel('y-osa');
+zlabel('z-osa');
+x = [0 0 1.5]
+y = [0 3 1.5];
+z = [0 0 4];
+patch(x,y,z,'g');
+grid on;
+axis([-2 5 -2 5]);
+xlabel('x-osa');
+ylabel('y-osa');
+zlabel('z-osa');
+x = [0 3 1.5];
+y = [3 3 1.5];
+z = [0 0 4];
+patch(x,y,z,'b');
+grid on;
+axis([-2 5 -2 5]);
+xlabel('x-osa');
+ylabel('y-osa');
+zlabel('z-osa');
+x = [3 3 1.5];
+y = [0 3 1.5];
+z = [0 0 4];
+patch(x,y,z,'m');
+grid on;
+axis([-2 5 -2 5]);
+xlabel('x-osa');
+ylabel('y-osa');
+zlabel('z-osa');
+
+%% 3 Nacrtati graf funkcije f = sin(3theta) u polarnim koordinatama i izvršiti
+% njegovu rotaciju za puni krug u vremenu od dvije sekunde.
+% Takoder nacrtati plohu z = sin(x2 + y2) i izvršiti njegovu rotaciju za dva kruga u
+% vremenu od 5 sekundi.
+
+% Kreiranje nove figure
+figure
+
+% Definiranje theta od 0 do 2*pi s korakom pi/100
+theta = 0:pi/100:2*pi;
+
+% Definiranje rho kao sin(3*theta)
+rho = sin(theta * 3);
+
+% Kreiranje polarne podgrafike na poziciji (2,1,1)
+subplot(2, 1, 1);
+% Kreiranje polarne grafike s zelenim krugovima
+h = polar(theta, rho, 'go');
+
+% Pauza prije animacije
+pause
+
+% Rotacija polarne grafike 60 puta
+for i = 1:60
+    % Definiranje osi rotacije (z-osa)
+    zdir = [0 0 1];
+    % Definiranje centra rotacije
+    center = [0 0 0];
+    % Pauza između koraka rotacije
+    pause(2/60)
+    % Rotacija grafike za 6 stepeni oko z-ose
+    rotate(h, zdir, 6, center)
+end
+
+% Pauza nakon animacije
+pause
+
+% Kreiranje mreže točaka u opsegu od -2 do 2 s korakom 0.1
+[x, y] = meshgrid([-2:0.1:2]);
+
+% Definiranje z kao sin(x^2 + y^2)
+z = sin(x.^2 + y.^2);
+
+% Kreiranje površinske podgrafike na poziciji (2,1,2)
+subplot(2, 1, 2);
+% Kreiranje površinske grafike
+h = surf(x, y, z);
+
+% Pauza prije podešavanja osi
+pause
+
+% Postavljanje osi tako da čvrsto prianjaju uz podatke
+axis tight
+
+% Rotacija površinske grafike 100 puta
+for i = 1:100
+    % Definiranje osi rotacije (negativna z-osa)
+    zdir = [0 0 -1];
+    % Definiranje centra rotacije
+    center = [0 0 0];
+    % Rotacija grafike za 7.2 stepena oko negativne z-ose
+    rotate(h, zdir, 7.2, center)
+    % Pauza između koraka rotacije
+    pause(5/100)
+end
+
+%% 8 izvrsiti animaciju kretanje tacke kroz putanju
+% generiranje objekta
+% Generiranje objekta
+t = linspace(0, 2 * pi, 100);
+x = 5 * cos(t);
+y = 2 * sin(t);
+z = t;
+
+% Iscrtavanje
+figure
+clf
+
+% Kreiranje VideoWriter objekta izvan petlje
+myWriter = VideoWriter('krivulja', 'MPEG-4');
+myWriter.FrameRate = 20;
+open(myWriter);
+
+for k = 1:length(t)
+    t_k = t(k);
+    x_t = x(k);
+    y_t = y(k);
+    z_t = z(k);
+    
+    plot3(x_t, y_t, z_t, 'go', 'LineWidth', 3, 'MarkerSize', 15);
+    hold on
+    plot3(x, y, z, 'b-', 'LineWidth', 2);
+    grid on
+    xlabel('x-osa');
+    ylabel('y-osa');
+    zlabel('z-osa');
+    title(['Tacka je na putanji t=', num2str(t_k), ' sekundi']);
+    view([30 35]);
+    
+    % Snimanje trenutnog okvira
+    frame = getframe(gcf);
+    writeVideo(myWriter, frame);
+    
+    hold off
+end
+
+% Zatvaranje VideoWriter objekta izvan petlje
+close(myWriter);
+
+%% 12 jednacine sa uslvima
+syms x y(x)
+jed1 = (1 + x^2) * diff(y, x) == x * (2 * y + 1);
+jed2 = x* diff(y,x) - (y)/(x+1) == x;
+rj_jed1 = dsolve(jed1);
+uslov_2=y(0)==-1;
+rj_jed2 = dsolve(jed2);
+disp(rj_jed1)
+disp(rj_jed2)
+
+%% 
+t=0:pi/50:2*pi;
+x=cos(t);
+y=sin(t);
+krug=patch(x,y,'y');
+axis([-2 2 -2 2]);
+x1=[-0.225 0.225 0];
+y1=[1.2 1.2 1.5];
+trokut1=patch(x1,y1,'y');
+x2=[-0.225 0.225 0];
+y2=[-1.2 -1.2 -1.5];
+trokut2=patch(x2,y2,'y');
+x3=[1.2 1.2 1.5];
+y3=[0.225 -0.225 0];
+trokut3=patch(x3,y3,'y');
+x4=[-1.2 -1.2 -1.5];
+y4=[0.225 -0.225 0];
+trokut4=patch(x4,y4,'y');
+x5=[0.90 1 0.6];
+y5=[0.65 1.1 1];
+trokut5=patch(x5,y5,'y');
+x6=[0.90 1 0.6];
+y6=[-0.65 -1.1 -1];
+trokut6=patch(x6,y6,'y');
+x7=[-0.9 -1 -0.6];
+y7=[0.65 1.1 1];
+trokut7=patch(x7,y7,'y');
+x8=[-0.9 -1 -0.6];
+y8=[-0.65 -1.1 -1];
+trokut8=patch(x8,y8,'y');
+sunce=[krug trokut1 trokut2 trokut3 trokut4 trokut5 trokut6 trokut7 trokut8];
+for i=1:60
+ rotate(sunce, [0 0 1], 30, [0 0 0]);
+
+%% 
+% Definiranje koordinata za linije
+x1 = 0;
+y1 = -0.5:0.001:0.1;
+x2 = 4;
+y2 = -0.5:0.001:0;
+y3 = 0;
+x3 = 0:0.01:4;
+
+% Plotanje linija
+figure;
+hold on;
+plot(x1*ones(size(y1)), y1, 'LineWidth', 4);
+plot(x2*ones(size(y2)), y2, 'LineWidth', 4);
+plot(x3, y3*ones(size(x3)), 'LineWidth', 4);
+
+% Definiranje kruga
+t = (0:1/720:1)' * 2 * pi;
+x = 0.1 + 0.1 * sin(t);
+y = 0.1 + 0.1 * cos(t);
+
+% Iscrtavanje kruga
+h = fill(x, y, 'b');
+
+% Postavljanje osi
+axis([-0.5 4.5 -0.5 2]);
+
+% Definiranje koordinata za rotaciju
+xr = x;
+yr = y;
+a = 0;
+b = 0;
+
+% Kretanje lopte s lijeva na desno i obrnuto
+for i = 1:80
+    xr = xr + (3.8 / 80); % Pomicanje po x osi za 3.8 u 80 koraka
+    a = a + (3.8 / 80); % Pomicanje centra rotacije
+    pause(3 / 160); % Pauza od 3/160 sekundi između koraka
+    set(h, 'xdata', xr, 'ydata', yr);
+    rotate(h, [0 0 1], 10, [a b 0]); % Rotacija oko z osi
+end
+
+for i = 1:80
+    xr = xr - (3.8 / 80); % Pomicanje u suprotnom smjeru za istu udaljenost
+    a = a - (3.8 / 80); % Pomicanje centra rotacije
+    pause(3 / 160); % Pauza između koraka
+    set(h, 'xdata', xr, 'ydata', yr);
+    rotate(h, [0 0 1], 10, [a b 0]); % Rotacija oko z osi
+end
+%% 
+close all
+clc
+x1=[6 8 7 ]
+y1=[3 3 2]
+trougao=patch(x1,y1,'r')
+x11=x1
+y11=y1
+axis([3 8 -1 3])
+for i=1:30
+ x11=x11-0.1
+ y11=y11;
+ set(trougao,'x',x11,'y',y11)
+ pause(3/30)
+end
+a=x11+1
+b=y11-0.5
+for i=1:30
+ x11=x11+0.1
+ y11=y11-0.1;
+ set(trougao,'x',x11,'y',y11)
+ pause(3/30)
+ 
+end
+for i=1:30
+ rotate(trougao,[0 0 1],6,[7,-0.5,0])
+ pause (0.1)
+end
+x11=[6 8 7]
+y11=[-1 -1 0]
+for i=1:30
+ x11=x11-0.1
+ y11=y11;
+ set(trougao,'x',x11,'y',y11)
+ pause(2/30)
+end
+for i=1:30
+ x11=x11+0.1
+ y11=y11+0.1;
+ set(trougao,'x',x11,'y',y11)
+ pause(2/30)
+end
+for i=1:30
+ rotate(trougao,[0 0 1],6,[7,2.5,0])
+ pause (1/30)
+end
+%% 
+clc
+clear all
+close all
+x=[0 10 10 0]
+y=[0 0 0.8 0.8]
+patch(x,y,'r')
+hold on
+t=(1/12:1/6:1)'*2*pi
+x1=sin(t)+1
+y1=cos(t)+2
+h=fill(x1,y1,'y');
+axis([-2 12 -12 12])
+grid on
+x11=x1;
+y22=y1;
+cx=1;
+for k=1:5
+for i=1:30
+zdir=[0 0 1];
+center=[cx 2 0]
+ set(h,'x',x11,'y',y22)
+ rotate(h,zdir,i*30,center)
+ cx=cx+0.27444;
+ 
+ x11=x11+0.27444;
+ y22=y22;
+ 
+ pause(0.025)
+end
+for j=1:30
+ zdir=[0 0 1];
+ cx=cx;
+ center=[cx 2 0];
+ 
+ set(h,'x',x11,'y',y22)
+ rotate(h,zdir,j*30,center)
+ x11=x11-0.27444;
+ y22=y22;
+ cx=cx-0.27444;
+ pause(0.025)
+end
+end
+
+%% Kretanje tijela - kvadrat na liniji
+
+clc 
+close all
+clear all 
+% prvo definisemo crveni pravouganik
+x = [0 1 1 0];
+y = [1 1 2 2];
+cp = patch(x,y,'r'); 
+% nakon toga definisemo i plavi pravougaonik
+x = [0 8 8 0]; 
+y = [0 0 1 1]; 
+pp = patch(x,y,'b'); 
+axis([0 8 0 8]);
+pause
+
+x1 = [0 1 1 0]; 
+y1 = [1 1 2 2]; 
+
+
+
+
+for i = 1:90
+    x1 = x1 + 7/90; 
+    set(cp,'x',x1,'y',y1); 
+    pause(0.5/90)
+end 
+for i = 1:60
+    x1 = x1 - 7/60; 
+    set(cp,'x',x1,'y',y1);
+    pause(0.5/60)
+end
+
+%% kretanje kugle po liniji
+x1=0;
+y1=-0.5:0.001:0.1;
+x2=4;
+y2=-0.5:0.001:0;
+y3=0;
+x3=0:0.01:4;
+plot(x1*ones(size(y1)), y1, x2*ones(size(y2)), y2, x3, y3*ones(size(x3)), 'LineWidth', 4)
+hold on
+t=(0:1/720:1)'*2*pi;
+x=0.1+0.1*sin(t);
+y=0.1+0.1*cos(t);
+h=fill(x,y,'b')
+axis([-0.5 4.5 -0.5 2])
+xr=x;
+yr=y;
+a=0;b=0;c=0;
+for i=1:80
+    xr=xr+(3.8/80);
+    a=a+(3.8/80);
+    yr=yr;
+    pause(3/80)
+    set(h,'x',xr,'y',yr)
+    rotate(h,[0 0 1],10,[a b 0])
+end
+for i=1:80
+    xr=xr-(3.8/80);
+    a=a-(3.8/80);
+    yr=yr;
+    pause(3/80)
+    set(h,'x',xr,'y',yr)
+    rotate(h,[0 0 1],10,[a b 0])
+end
+
+%% sunce - rotaciju 5 putau 2 sekunde
+clc
+clearvars
+
+% Parametri
+r_kruga = 1.4; % Radijus kruga
+broj_trokuta = 8; % Broj trokuta
+broj_rotacija = 5; % Broj rotacija
+vrijeme_animacije = 2; % Ukupno vrijeme animacije (sekunde)
+broj_koraka = 240; % Broj koraka animacije
+
+% Definiranje kruga
+t = linspace(0, 2*pi, 100);
+x_krug = r_kruga * sin(t);
+y_krug = r_kruga * cos(t);
+% Definiranje trokuta
+x_trokut = [1.5 2.5 1.5];
+y_trokut = [-0.5 0 0.5];
+
+% Stvaranje grafičkog prozora
+figure;
+axis([-3 3 -3 3]);
+grid on;
+hold on;
+
+% Crteži
+patch(x_krug, y_krug, 'yellow');
+
+% Inicijalizacija niza za trokute i rotacija
+trokut = gobjects(1, broj_trokuta);
+deg = 360 / broj_trokuta;
+
+for i = 1:broj_trokuta
+    trokut(i) = patch(x_trokut, y_trokut, 'yellow');
+    rotate(trokut(i), [0 0 1], deg * (i - 1));
+end
+
+% Računanje koraka rotacije
+koraci_rotacije = linspace(0, 360 * broj_rotacija, broj_koraka);
+% Animacija rotacije
+for i = 1:broj_koraka
+    for j = 1:broj_trokuta
+        rotate(trokut(j), [0 0 1], koraci_rotacije(i) / broj_koraka);
+    end
+    pause(vrijeme_animacije / broj_koraka);
+end
+%% sestougao krece se l-d 5 puta u 10s po liniji uz istovremeno okretanje sestougla
+
+clc 
+clear all 
+close all 
+
+x=[0 10 10 0]; % X-koordinate pravougaonika ili oblika
+y=[0 0 0.8 0.8]; % Y-koordinate pravougaonika ili oblika
+patch(x,y,'r'); % Kreira popunjenu poligon (pravougaonik) crvene boje
+hold on; % Zadržava trenutni graf i određene svojstva
+
+t=(1/12:1/6:1)'*2*pi; % Generiše uglove od 0 do 2*pi radijana
+x1=sin(t)+1; % X-koordinate kruga na osnovu sinusa uglova, pomaknuto za 1
+y1=cos(t)+2; % Y-koordinate kruga na osnovu kosinusa uglova, pomaknuto za 2
+h=fill(x1,y1,'y'); % Kreira popunjeni žuti krug koristeći izračunate koordinate
+
+axis([-2 12 -12 12]); % Postavlja granice osa za prikaz od -2 do 12 po x-osi i -12 do 12 po y-osi
+grid on; % Uključuje prikaz mreže na grafikonu
+
+x11=x1; % Postavlja početne X-koordinate za rotaciju
+y22=y1; % Postavlja početne Y-koordinate za rotaciju
+cx=1;   % Početna X-koordinata centra rotacije
+
+for k=1:5
+    for i=1:30
+        zdir=[0 0 1];   % Z-os rotacije (ovdje znači rotacija oko Z-os)
+        center=[cx 2 0]; % Koordinate centra rotacije
+        
+        set(h,'x',x11,'y',y22); % Postavlja nove X i Y koordinate kruga
+        rotate(h,zdir,i*30,center); % Vrši rotaciju kruga za i*30 stepeni oko centra
+        
+        cx=cx+0.27444;  % Pomiče X koordinatu centra rotacije
+        x11=x11+0.27444; % Pomiče X koordinate kruga
+        y22=y22;        % Y koordinate kruga ostaju iste
+        
+        pause(0.025);   % Pauzira izvršavanje koda na 0.025 sekundi
+    end
+    
+    for j=1:30
+        zdir=[0 0 1];   % Z-os rotacije (ovdje znači rotacija oko Z-os)
+        cx=cx;          % X koordinata centra rotacije ostaje ista
+        center=[cx 2 0]; % Koordinate centra rotacije
+        
+        set(h,'x',x11,'y',y22); % Postavlja nove X i Y koordinate kruga
+        rotate(h,zdir,j*30,center); % Vrši rotaciju kruga za j*30 stepeni oko centra
+        
+        x11=x11-0.27444; % Pomiče X koordinate kruga unazad
+        y22=y22;         % Y koordinate kruga ostaju iste
+        cx=cx-0.27444;   % Pomiče X koordinatu centra rotacije unazad
+        
+        pause(0.025);    % Pauzira izvršavanje koda na 0.025 sekundi
+    end
+end
+
+%% SA DRAJVAAA
+
+clc
+clear all
+close all
+x=[0 10 10 0]
+y=[0 0 0.8 0.8]
+patch(x,y,'r')
+hold on
+
+t=(1/12:1/6:1)'*2*pi
+x1=sin(t)+1
+y1=cos(t)+2
+h=fill(x1,y1,'y');
+axis([-2 12 -12 12])
+grid on
+x11=x1;
+y22=y1;
+cx=1;
+
+for k=1:5
+for i=1:30
+zdir=[0 0 1];
+center=[cx 2 0]    
+
+    set(h,'x',x11,'y',y22)
+    rotate(h,zdir,i*30,center)
+    cx=cx+0.27444;
+  
+    x11=x11+0.27444;
+    y22=y22;
+    
+    pause(0.025)
+end
+
+for j=1:30
+    zdir=[0 0 1];
+     cx=cx;
+     center=[cx 2 0];
+  
+    set(h,'x',x11,'y',y22)
+    rotate(h,zdir,j*30,center) 
+      x11=x11-0.27444;
+    y22=y22;
+    cx=cx-0.27444;
+    pause(0.025)
+end
+end
+
+%% Kazaljka
+r = 0:0.1:2*pi;
+x = sin(r)+5;
+y = cos(r)+5;
+
+patch(x,y,'yellow')
+x = [5 5 6 6];
+y = [4.9 5.1 5.1 4.9];
+kazaljka = patch(x,y,'red');
+
+x1 = x;
+y1 = y;
+smjer = [0 0 1];
+
+pause
+for i=1:180
+    rotate(kazaljka,smjer,-6)
+    pause(1/30)
+end
+%% semafor
+t = 0:0.1:2*pi;
+x_background = [-2 2 2 -2];
+y_background = [-8 -8 2 2];
+
+figure;
+patch(x_background, y_background, 'k');
+axis([-10 10 -10 10]);
+hold on;
+
+while true
+    % Crvena boja svijetli 50 sekundi
+    crveno = patch(sin(t), cos(t), 'red');
+    pause(5);  % 50 sekundi
+
+    % Zatim žuta boja svijetli 5 sekundi
+    delete(crveno);
+    zuto = patch(sin(t), cos(t) - 3, 'yellow');
+    pause(2);  % 5 sekundi
+
+    % Zelena boja svijetli 50 sekundi
+    delete(zuto);
+    zeleno = patch(sin(t), cos(t) - 6, 'green');
+    pause(5);  % 50 sekundi
+
+
+
+    % Treptanje tri puta po 5 sekundi
+    for i = 1:3
+        delete(zeleno);
+        pause(0.5);  % 0.5 sekundi
+        zeleno = patch(sin(t), cos(t) - 6, 'green');
+        pause(0.5);  % 0.5 sekundi
+    end
+
+    % Nakon treptanja, žuto pa crveno svjetlo
+    delete(zeleno);
+    zuto = patch(sin(t), cos(t) - 3, 'yellow');
+    pause(2);  % 5 sekundi
+    delete(zuto);
+    crveno = patch(sin(t), cos(t), 'red');
+    pause(50);  % 50 sekundi
+end
+
+%% ima i ovaj nacin sa manjim semaforom:
+clc
+clear all
+% Definisanje kutije semafora
+x1 = [-1.2 1.2 1.2 -1.2]; % X koordinate kutije semafora
+y1 = [-6.2 -6.2 1.2 1.2]; % Y koordinate kutije semafora
+vsemafor = patch(x1, y1, 'black'); % Kreiranje kvadratnog oblika za kutiju semafora i bojanje u crno
+hold on % Zadržavanje trenutnog grafa
+
+% Definisanje krugova za svjetla
+t = (0:1/360:1)'*2*pi; % Generisanje uglova za kružne oblike
+x = sin(t); % X koordinate krugova (sinusna funkcija)
+y = cos(t); % Y koordinate krugova (kosinusna funkcija)
+crveno = fill(x, y, 'black'); % Kreiranje crvenog svjetla i bojanje u crno
+hold on % Zadržavanje trenutnog grafa
+zuto = fill(x, y-2.5, 'black'); % Kreiranje žutog svjetla i bojanje u crno (pomjereno za 2.5 dolje)
+hold on % Zadržavanje trenutnog grafa
+zeleno = fill(x, y-5, 'black'); % Kreiranje zelenog svjetla i bojanje u crno (pomjereno za 5 dolje)
+hold on % Zadržavanje trenutnog grafa
+axis([-2 5 -7 2]) % Postavljanje granica osi
+
+% Definisanje kutije drugog semafora
+x2 = [2.3 4.5 4.5 2.3]; % X koordinate kutije drugog semafora
+y2 = [-6.2 -6.2 -2.5 -2.5]; % Y koordinate kutije drugog semafora
+msemafor = patch(x2, y2, 'black'); % Kreiranje kvadratnog oblika za kutiju drugog semafora i bojanje u crno
+hold on % Zadržavanje trenutnog grafa
+x3 = 0.8*cos(t); % X koordinate krugova za drugi semafor (skalirano na 0.8)
+y3 = 0.8*sin(t); % Y koordinate krugova za drugi semafor (skalirano na 0.8)
+crvenom = fill(x3+3.4, y3-3.4, 'black'); % Kreiranje crvenog svjetla na drugom semaforu i bojanje u crno (pomjereno)
+hold on % Zadržavanje trenutnog grafa
+zelenom = fill(x3+3.4, y3-5.1, 'black'); % Kreiranje zelenog svjetla na drugom semaforu i bojanje u crno (pomjereno)
+hold on % Zadržavanje trenutnog grafa
+
+% Prikaz crvenog svjetla na prvom semaforu
+for i = 1:3
+    pause(0.5) % Pauza od 0.5 sekundi
+    crveno = fill(x, y, 'red'); % Prikaz crvenog svjetla
+    hold on % Zadržavanje trenutnog grafa
+    zuto = fill(x, y-2.5, 'black'); % Bojanje žutog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+    zeleno = fill(x, y-5, 'black'); % Bojanje zelenog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+end
+
+% Prikaz zelenog svjetla na drugom semaforu
+for i = 1:6
+    pause(0.5) % Pauza od 0.5 sekundi
+    crvenom = fill(x3+3.4, y3-3.4, 'black'); % Bojanje crvenog svjetla na drugom semaforu u crno
+    hold on % Zadržavanje trenutnog grafa
+    zelenom = fill(x3+3.4, y3-5.1, 'green'); % Prikaz zelenog svjetla na drugom semaforu
+    hold on % Zadržavanje trenutnog grafa
+end
+
+% Prikaz žutog svjetla na prvom semaforu
+for i = 1:3
+    pause(0.5) % Pauza od 0.5 sekundi
+    crveno = fill(x, y, 'black'); % Bojanje crvenog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+    zuto = fill(x, y-2.5, 'yellow'); % Prikaz žutog svjetla
+    hold on % Zadržavanje trenutnog grafa
+    zeleno = fill(x, y-5, 'black'); % Bojanje zelenog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+end
+
+% Prikaz crvenog svjetla na drugom semaforu
+for i = 1:3
+    crvenom = fill(x3+3.4, y3-3.4, 'red'); % Prikaz crvenog svjetla na drugom semaforu
+    hold on % Zadržavanje trenutnog grafa
+    zelenom = fill(x3+3.4, y3-5.1, 'black'); % Bojanje zelenog svjetla na drugom semaforu u crno
+    hold on % Zadržavanje trenutnog grafa
+    pause(0.5) % Pauza od 0.5 sekundi
+end
+
+% Prikaz zelenog svjetla na prvom semaforu
+for i = 1:3
+    pause(1) % Pauza od 1 sekunde
+    crveno = fill(x, y, 'black'); % Bojanje crvenog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+    zuto = fill(x, y-2.5, 'black'); % Bojanje žutog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+    zeleno = fill(x, y-5, 'green'); % Prikaz zelenog svjetla
+    hold on % Zadržavanje trenutnog grafa
+end
+
+% Titranje zelenog svjetla na prvom semaforu
+for i = 1:3
+    pause(0.5) % Pauza od 0.5 sekundi
+    crveno = fill(x, y, 'black'); % Bojanje crvenog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+    zuto = fill(x, y-2.5, 'black'); % Bojanje žutog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+    zeleno = fill(x, y-5, 'black'); % Bojanje zelenog svjetla u crno
+    hold on % Zadržavanje trenutnog grafa
+    pause(0.5) % Pauza od 0.5 sekundi
+    zeleno = fill(x, y-5, 'green'); % Prikaz zelenog svjetla
+    hold on % Zadržavanje trenutnog grafa
+end
+
+% Promjena zelenog svjetla na prvom semaforu u žuto
+pause(0.5) % Pauza od 0.5 sekundi
+zeleno = fill(x, y-5, 'black'); % Bojanje zelenog svjetla u crno
+hold on % Zadržavanje trenutnog grafa
+zuto = fill(x, y-2.5, 'yellow'); % Prikaz žutog svjetla
+hold on % Zadržavanje trenutnog grafa
+pause(2) % Pauza od 2 sekunde
+
+% Promjena žutog svjetla na prvom semaforu u crveno
+zuto = fill(x, y-2.5, 'black'); % Bojanje žutog svjetla u crno
+hold on % Zadržavanje trenutnog grafa
+crveno = fill(x, y, 'red'); % Prikaz crvenog svjetla
+hold on % Zadržavanje trenutnog grafa
+
+% Promjena drugog semafora na zeleno svjetlo
+crvenom = fill(x3+3.4, y3-3.4, 'black'); % Bojanje crvenog svjetla na drugom semaforu u crno
+hold on % Zadržavanje trenutnog grafa
+zelenom = fill(x3+3.4, y3-5.1, 'green'); % Prikaz zelenog svjetla na drugom semaforu
+hold on % Zadržavanje trenutnog grafa
+%% Kretanje strelice - mijenja boju kad i smjer
+x=[-1 7 7 -1];
+y=[0 0 -7 -7]
+bg=patch(x,y,'w')
+hold on
+xl = [0 6 6 0];
+yl = [-1 -1 -2 -2];
+linijar = patch(xl, yl, 'w');
+hold on
+
+text(0.15,-1.75,'0')
+text(0.25,-2,'|')
+text(0.75,-2,'|')
+text(1.25,-2,'|')
+text(1.75,-2,'|')
+text(2.25,-2,'|')
+text(2.75,-2,'|')
+text(3.25,-2,'|')
+text(3.75,-2,'|')
+text(4.25,-2,'|')
+text(4.75,-2,'|')
+text(5.25,-2,'|')
+text(5.75,-2,'|')
+text(5.7,-1.75,'12')
+hold all
+
+xk=[0.2 0.2 0 0.25 0.5 0.3 0.3];
+yk=[-4 -2.2 -2.2 -2 -2.2 -2.2 -4];
+strelicaa=patch(xk,yk,'r')
+
+for i=1:11
+    
+    xk=xk+0.5;
+    yk=yk;
+    pause(1/11)
+    set(strelicaa,'x',xk,'y',yk)
+end
+for i=1:11
+   
+    xk=xk-0.5;
+    yk=yk;
+    pause(2/11)
+    set(strelicaa,'x',xk,'y',yk,'facecolor','blue');
+end
+%% rotacija petougla
+clear all
+close all
+clc
+
+figure
+t=(1/10:1/5:1)'*2*pi;
+x=sin(t);
+y=cos(t);
+axis([-2 12 -2 8])
+h=patch(x,y,'r');
+xlabel('x'); 
+ylabel('y'); 
+zlabel('z');
+title('Rotacija i translacija petougla');
+grid ON
+pause(2)
+
+x1=x;
+y1=y;
+
+x2=0;
+y2=0;
+
+for t=1:1:60
+    x1=x1+(1/6);
+    y1=y1+(0.1);
+    x2=x2+(1/6);
+    y2=y2+(0.1);
+    
+    set(h,'x',x1,'y',y1)
+    rotate(h, [0 0 1], t*30, [x2 y2 0])
+    
+    pause(0.03)
+end
+
+%% ROTIRAJUCI TROUGAO
+close all
+clear all
+clc
+x1=[6 8 7 ]
+y1=[3 3 2]
+trougao=patch(x1,y1,'r')
+x11=x1
+y11=y1
+axis([3 8 -1 3])
+for i=1:30
+    x11=x11-0.1
+    y11=y11;
+    set(trougao,'x',x11,'y',y11)
+    pause(3/30)
+end
+
+a=x11+1
+b=y11-0.5
+for i=1:30
+    x11=x11+0.1
+    y11=y11-0.1;
+  set(trougao,'x',x11,'y',y11)
+    pause(3/30)
+   
+end
+
+for i=1:30
+         rotate(trougao,[0 0 1],6,[7,-0.5,0])
+         pause (0.1)
+end
+
+x11=[6 8 7]
+y11=[-1 -1 0]
+for i=1:30
+    x11=x11-0.1
+    y11=y11;
+    set(trougao,'x',x11,'y',y11)
+    pause(2/30)
+end
+for i=1:30
+    x11=x11+0.1
+    y11=y11+0.1;
+    set(trougao,'x',x11,'y',y11)
+    pause(2/30)
+end
+
+for i=1:30
+      rotate(trougao,[0 0 1],6,[7,2.5,0])
+      pause (1/30)
+end
+ pause(2/60);
+end
