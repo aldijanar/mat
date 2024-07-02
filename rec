@@ -1,0 +1,219 @@
+classdef rec < matlab.apps.AppBase
+ 
+    % Properties that correspond to app components
+    properties (Access = public)
+        UIFigure                       matlab.ui.Figure
+        NonVowelsEditField             matlab.ui.control.EditField
+        NonVowelsEditFieldLabel        matlab.ui.control.Label
+        VowelsEditField                matlab.ui.control.EditField
+        VowelsEditFieldLabel           matlab.ui.control.Label
+        QuestionSentencesEditField     matlab.ui.control.EditField
+        QuestionSentencesEditFieldLabel  matlab.ui.control.Label
+        PeriodSentencesEditField       matlab.ui.control.EditField
+        PeriodSentencesEditFieldLabel  matlab.ui.control.Label
+        ExclSentencesEditField         matlab.ui.control.EditField
+        ExclSentencesEditFieldLabel    matlab.ui.control.Label
+        SentencesEditField             matlab.ui.control.EditField
+        SentencesEditFieldLabel        matlab.ui.control.Label
+        WordsEditField                 matlab.ui.control.EditField
+        WordsEditFieldLabel            matlab.ui.control.Label
+        DeleteButton                   matlab.ui.control.Button
+        StartButton                    matlab.ui.control.Button
+        InputTextArea                  matlab.ui.control.TextArea
+        InputTextAreaLabel             matlab.ui.control.Label
+    end
+ 
+    % Callbacks that handle component events
+    methods (Access = private)
+ 
+        % Button pushed function: StartButton
+        function StartButtonPushed(app, event)
+         % Get input text
+            text = app.InputTextArea.Value;
+            text = string(text);
+            % Count words
+           
+            words = strsplit(text);
+            numWords = length(words);
+ 
+           
+            % Count exclamation sentences
+            numExclSentences = numel(strfind(text, '!'));
+            numPeriodSentences = numel(strfind(text, '.'));
+             numQuesti '?'));
+            numSentences = numExclSentences + numPeriodSentences + numQuestionSentences;
+            % Count vowels
+            textlower = lower(text);
+            numa = numel(strfind(textlower, 'a'));
+            nume = numel(strfind(textlower, 'e'));
+            numi = numel(strfind(textlower, 'i'));
+            numo = numel(strfind(textlower, 'o'));
+            numu = numel(strfind(textlower, 'u'));
+ 
+            numVowels = numa+nume+numi+numo+numu;
+ 
+ 
+ 
+% Count non-vowels
+             numN - numVowels;  % Count all letters minus vowels
+ 
+            % Update fields
+            app.WordsEditField.Value = num2str(numWords);
+            app.SentencesEditField.Value = num2str(numSentences);
+            app.ExclSentencesEditField.Value = num2str(numExclSentences);
+            app.PeriodSentencesEditField.Value = num2str(numPeriodSentences);
+            app.QuestionSentencesEditField.Value = num2str(numQuestionSentences);
+            app.VowelsEditField.Value = num2str(numVowels);
+            app.NonVowelsEditField.Value = num2str(numNonVowels);
+         
+        end
+ 
+        % Button pushed function: DeleteButton
+        function DeleteButtonPushed(app, event)
+            app.InputTextArea.Value = '';
+           
+            % Clear the results fields
+            app.WordsEditField.Value = num2str(0);
+            app.SentencesEditField.Value = num2str(0);
+            app.ExclSentencesEditField.Value = num2str(0);
+            app.PeriodSentencesEditField.Value = num2str(0);
+            app.QuestionSentencesEditField.Value = num2str(0);
+            app.VowelsEditField.Value = num2str(0);
+            app.NonVowelsEditField.Value = num2str(0);
+     
+        end
+    end
+ 
+    % Component initialization
+    methods (Access = private)
+ 
+        % Create UIFigure and components
+        function createComponents(app)
+ 
+            % Create UIFigure and hide until all components are created
+            app.UIFigure = uifigure('Visible', 'off');
+             app.UIFigure.Positi 100 640 480];
+            app.UIFigure.Name = 'MATLAB App';
+ 
+            % Create InputTextAreaLabel
+            app.InputTextAreaLabel = uilabel(app.UIFigure);
+             app.InputTextAreaLabel.Horiz
+             app.InputTextAreaLabel.Positi 405 35 22];
+            app.InputTextAreaLabel.Text = 'Input:';
+ 
+            % Create InputTextArea
+            app.InputTextArea = uitextarea(app.UIFigure);
+             app.InputTextArea.Positi 369 150 60];
+ 
+            % Create StartButton
+             app.StartButt 'push');
+             app.StartButton.Butt @StartButtonPushed, true);
+             app.StartButton.Positi 298 100 23];
+            app.StartButton.Text = 'Start';
+ 
+            % Create DeleteButton
+             app.DeleteButt 'push');
+             app.DeleteButton.Butt @DeleteButtonPushed, true);
+             app.DeleteButton.Positi 298 100 23];
+            app.DeleteButton.Text = 'Delete';
+ 
+            % Create WordsEditFieldLabel
+            app.WordsEditFieldLabel = uilabel(app.UIFigure);
+             app.WordsEditFieldLabel.Horiz
+             app.WordsEditFieldLabel.Positi 242 43 22];
+            app.WordsEditFieldLabel.Text = 'Words:';
+ 
+            % Create WordsEditField
+            app.WordsEditField = uieditfield(app.UIFigure, 'text');
+             app.WordsEditField.Positi 242 235 22];
+ 
+            % Create SentencesEditFieldLabel
+            app.SentencesEditFieldLabel = uilabel(app.UIFigure);
+             app.SentencesEditFieldLabel.Horiz
+             app.SentencesEditFieldLabel.Positi 207 65 22];
+            app.SentencesEditFieldLabel.Text = 'Sentences:';
+ 
+            % Create SentencesEditField
+            app.SentencesEditField = uieditfield(app.UIFigure, 'text');
+             app.SentencesEditField.Positi 207 213 22];
+ 
+            % Create ExclSentencesEditFieldLabel
+            app.ExclSentencesEditFieldLabel = uilabel(app.UIFigure);
+             app.ExclSentencesEditFieldLabel.Horiz
+             app.ExclSentencesEditFieldLabel.Positi 170 94 22];
+            app.ExclSentencesEditFieldLabel.Text = 'Excl Sentences: ';
+ 
+            % Create ExclSentencesEditField
+            app.ExclSentencesEditField = uieditfield(app.UIFigure, 'text');
+             app.ExclSentencesEditField.Positi 170 184 22];
+ 
+            % Create PeriodSentencesEditFieldLabel
+            app.PeriodSentencesEditFieldLabel = uilabel(app.UIFigure);
+             app.PeriodSentencesEditFieldLabel.Horiz
+             app.PeriodSentencesEditFieldLabel.Positi 133 106 22];
+            app.PeriodSentencesEditFieldLabel.Text = 'Period Sentences: ';
+ 
+            % Create PeriodSentencesEditField
+            app.PeriodSentencesEditField = uieditfield(app.UIFigure, 'text');
+             app.PeriodSentencesEditField.Positi 133 172 22];
+ 
+            % Create QuestionSentencesEditFieldLabel
+             app.Questi
+             app.QuestionSentencesEditFieldLabel.Horiz
+             app.QuestionSentencesEditFieldLabel.Positi 94 120 22];
+            app.QuestionSentencesEditFieldLabel.Text = 'Question Sentences: ';
+ 
+            % Create QuestionSentencesEditField
+             app.Questi 'text');
+             app.QuestionSentencesEditField.Positi 94 158 22];
+ 
+            % Create VowelsEditFieldLabel
+            app.VowelsEditFieldLabel = uilabel(app.UIFigure);
+             app.VowelsEditFieldLabel.Horiz
+             app.VowelsEditFieldLabel.Positi 56 46 22];
+            app.VowelsEditFieldLabel.Text = 'Vowels:';
+ 
+            % Create VowelsEditField
+            app.VowelsEditField = uieditfield(app.UIFigure, 'text');
+             app.VowelsEditField.Positi 56 232 22];
+ 
+            % Create NonVowelsEditFieldLabel
+             app.N
+             app.NonVowelsEditFieldLabel.Horiz
+             app.NonVowelsEditFieldLabel.Positi 24 76 22];
+            app.NonVowelsEditFieldLabel.Text = 'Non-Vowels: ';
+ 
+            % Create NonVowelsEditField
+             app.N 'text');
+             app.NonVowelsEditField.Positi 24 202 22];
+ 
+            % Show the figure after all components are created
+            app.UIFigure.Visible = 'on';
+        end
+    end
+ 
+    % App creation and deletion
+    methods (Access = public)
+ 
+        % Construct app
+        function app = rec
+ 
+            % Create UIFigure and components
+            createComponents(app)
+ 
+            % Register the app with App Designer
+            registerApp(app, app.UIFigure)
+ 
+            if nargout == 0
+                clear app
+            end
+        end
+ 
+        % Code that executes before app deletion
+        function delete(app)
+ 
+            % Delete UIFigure when app is deleted
+            delete(app.UIFigure)
+        end
+    end
+end
