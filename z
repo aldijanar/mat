@@ -1,0 +1,188 @@
+%% Zvuuuukk
+%% 4 Spojiti zvučne signale upotrebom operatora konkatanacije toms.wav i tenor-sax.wav
+% i prikazati ih upotrebom naredbe plot.
+[zvuk1,fs]=audioread( 'tom.mp3' );
+[zvuk2,fs]=audioread( 'tenor.mp3');
+spojeni = [zvuk1; zvuk2];
+t=0:1/fs:1/fs* (length(spojeni)-1);
+plot(t,spojeni)
+xlabel('Vrijeme[s]')
+ylabel('Amplituda')
+%% 5 Izvršiti miksanje zvučnog signala toms.wav sa sinusnim signalom.x=0.5sin(2pi t).
+% Prikazati ulazne i izlazni zvučni signal.
+zvuk1= 'tom.mp3';
+[y, fs]= audioread(zvuk1);
+t=0:1/fs:1/fs* (length(y)-1);
+sinusnisignal = 0.5*sin(2*pi*t)';
+novisignal = y + sinusnisignal;
+subplot(3,1,1), plot(t,y, 'linewidth',2)
+title('Ulazni signal' );
+ylabel('Amplituda' )
+subplot(3,1,2), plot(t,sinusnisignal, 'r', 'linewidth',2)
+title('Sinusni signal' );
+ylabel('Amplituda')
+subplot(3,1,3), plot(t,novisignal, 'g', 'linewidth',2)
+title('Miksani signal' );
+xlabel('Vrijeme[s]')
+ylabel('Amplituda')
+%% 6 Projektovati niskopropusni filter ako su zadani ulazni parametri:
+% frekvencija uzrokovanja fs-44000 Hz, granica propusnog pojasa Wp-1000 Hz,
+% granica nepropusnog pojasa Ws-1300 Hz,
+% valovitost u propusnom pojasu Rp=1 dB i slabljenje u nepropusnom pojasu Rs-40 dB.
+
+% Postavljanje frekvencije uzorkovanja na 44,000 Hz
+fs = 44000;
+
+% Definiranje normaliziranih frekvencija za propusni i zaporni opseg
+Wp = 2 * 1000 / fs; % Normalizirana frekvencija propusnog opsega (1 kHz)
+Ws = 2 * 1300 / fs; % Normalizirana frekvencija zapornog opsega (1.3 kHz)
+
+% Definiranje tolerancija za propusni i zaporni opseg
+Rp = 1;  % Maksimalna valovitost u propusnom opsegu (dB)
+Rs = 40; % Minimalno prigušenje u zapornom opsegu (dB)
+
+% Definiranje parametara niskopropusnog filtra pomoću 'fdesign.lowpass' funkcije
+d = fdesign.lowpass('Fp,Fst,Ap,Ast', Wp, Ws, Rp, Rs);
+
+% Dizajniranje filtra pomoću Chebyshev tipa II metode
+f = design(d, 'cheby2');
+
+% Prikaz informacija o dizajniranom filtru
+info(f)
+
+% Vizualizacija frekvencijskog odziva filtra pomoću 'fvtool'
+fvtool(f)
+
+% Učitavanje audio signala iz datoteke 'tom.mp3'
+[Y, fs] = audioread('bell.wav');
+
+% Definiranje vremenskog vektora za prikaz signala
+t = 0:1/fs:1/fs*(length(Y)-1);
+
+% Plotanje ulaznog audio signala
+plot(t, Y)
+xlabel('Vrijeme [s]')
+ylabel('Amplituda')
+hold on
+
+% Filtriranje ulaznog signala pomoću dizajniranog filtra
+izlaz = filter(f, Y);
+
+% Plotanje filtriranog signala na istom grafu
+plot(t, izlaz, 'r-')
+legend('Ulazni signal', 'Filtrirani signal')
+
+%% 7 Učitati proizvoljni zvučni signal. Izvršiti linearno pojačavanje zvučnog signala,
+% zatim napraviti inverziju signala.
+[zvuk,fs] = audioread('tom.mp3');
+ramp = 0:1/(length(zvuk)-1):1;
+linearno_pojacanje = zvuk.*ramp';
+inverzija = zvuk .* (1 - ramp');
+t = 0:1/fs:1/fs*(length(zvuk)-1);
+subplot(211)
+plot(t,zvuk)
+title('Ulazni zvucni signal');
+axis([0 2 -1 1])
+subplot(212)
+plot(t,linearno_pojacanje)
+hold on
+plot(t, inverzija, 'g', 'LineWidth', 2);
+plot(t, ramp, 'r', 'LineWidth', 2);
+title('Linearno pojacanje i inverzija signala');
+xlabel('Vrijeme (s)');
+ylabel('Amplituda');
+legend('Linearno pojacanje', 'Inverzija', 'Ramp', 'Location', 'best');
+axis([0 2 -1 1]);
+
+%% 10 a) Generisati i sabrati čiste tonove frekvencije 300 Hz i 700 Hz,
+% frekvencije uzrokovanja fs-4000 Hz.
+% Generisani zvučni signal prikazati u vrmenskom i frekvencijskom domenu.
+% b) Projektovati visokopropuni filter ako su zadani ulazni parametri: frekvencija
+% uzrokovanja fs-44000 Hz, granica propusnog pojasa Wp-3000 Hz, granica nepropusnog
+% pojasa Ws-2900 Hz, valovitost u propusnom pojasu Rp-1 Db i slabljenje u
+% nepropusnom pojasu Rs 40 dB.
+Fs=4000;
+T=1/Fs;
+L=1000;
+t=(0:L-1)*T;
+y=0.7*sin(2*pi*300*t)+sin(2*pi*700*t);
+subplot(211)
+plot(t(1:200),y(1:200))
+title('Sinusni signal');
+xlabel('Vrijeme');
+ylabel('Amplituda');
+NFFT=2^nextpow2(L);
+Y=fft(y,NFFT)/L;
+f=Fs/2*linspace(0,1,NFFT/2+1);
+subplot(212)
+plot(f,2*abs(Y(1:NFFT/2+1)),'r')
+xlabel('Frekvencija');
+ylabel('Funkcija y');
+% b)
+clear all
+clc
+fs=44000;
+Wp=[2*3000/fs];
+Ws=[2*2900/fs];
+Rp=1;
+Rs=40;
+d=fdesign.highpass('Fst,Fp,Ast,Ap',Ws,Wp,Rs,Rp);
+f=design(d,'cheby2');
+info(f)
+fvtool(f)
+[Y,FS]=audioread('bell.wav');
+t=0:1/fs:1/fs*(length(Y)-1);
+plot(t,Y)
+xlabel('Vrijeme [s]')
+ylabel('Amplituda')
+hold on
+izlaz=filter(f,Y);
+plot(t,izlaz,'r-')
+legend('Ulazni signal','Filtrirani signal')
+
+%% 15 
+% Korak 1: Generisati čisti ton frekvencije 100 Hz u trajanju od 1 sekunde sa frekvencijom uzorkovanja od 3000 Hz
+fs1 = 3000; % Frekvencija uzorkovanja za ton
+t1 = 0:1/fs1:1-1/fs1; % Vremenski vektor za 1 sekundu
+tone = sin(2*pi*100*t1); % Generisanje tona frekvencije 100 Hz
+
+% Korak 2: Generisati bijeli šum u trajanju od 2 sekunde sa frekvencijom uzorkovanja od 1000 Hz
+fs2 = 1000; % Frekvencija uzorkovanja za šum
+t2 = 0:1/fs2:2-1/fs2; % Vremenski vektor za 2 sekunde
+noise = randn(size(t2)); % Generisanje bijelog šuma
+
+% Korak 3: Promjena uzorkovanja bijelog šuma na 3000 Hz radi kombinovanja sa tonom
+t2_resampled = 0:1/fs1:2-1/fs1; % Novi vremenski vektor sa fs1 uzorkovanjem
+noise_resampled = resample(noise, fs1, fs2); % Resampliranje šuma na fs1
+
+% Korak 4: Kombinovati čisti ton i bijeli šum
+combined_signal = [tone, noise_resampled(length(tone)+1:end)];
+
+% Korak 5: Miksati kombinovani signal sa sinusoidalnim signalom
+t_combined = 0:1/fs1:(length(combined_signal)-1)/fs1; % Vremenski vektor za kombinovani signal
+sinusoid = 0.5 * sin(2 * pi * t_combined); % Generisanje sinusoidalnog signala
+mixed_signal = combined_signal + sinusoid;
+
+% Korak 6: Prikazati sve zvučne signale
+figure;
+subplot(4, 1, 1);
+plot(t1, tone);
+title('100 Hz Ton');
+subplot(4, 1, 2);
+plot(t2, noise);
+title('Bijeli Šum');
+subplot(4, 1, 3);
+plot(t_combined, combined_signal);
+title('Kombinovani Signal');
+subplot(4, 1, 4);
+plot(t_combined, mixed_signal);
+title('Miksani Signal');
+
+% Reprodukcija zvukova
+sound(tone, fs1);
+pause(1);
+sound(noise, fs2);
+pause(2);
+sound(combined_signal, fs1);
+pause(length(combined_signal)/fs1);
+sound(mixed_signal, fs1);
