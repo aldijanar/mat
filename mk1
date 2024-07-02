@@ -1,0 +1,2603 @@
+1. Crtanje polinoma
+clear all
+disp(' ') 
+disp('program za crtanje polinoma na temelju poznatih korijena')
+disp('korijene polinoma unijeti u obliku matrice korijeni=[k1 k2...kn]')
+disp('za nastavak pritisni bilo koju tipku')
+pause % Matlab ceka da korisnik stisne neku tipku
+disp (' ')
+korijeni=input ('unesi korijene polinoma: korijeni=') 
+disp('koeficijenti polinoma su:')
+koef_polinoma=poly(korijeni) % racunanje koeficijenata polinoma na
+%temelju korijena
+disp(' ')
+disp('za nastavak pritisni bilo koju tipku')
+pause
+disp('unijeti vremenski interval za crtanje polinoma')
+t_pocetno=input('unesi pocetno vrijeme, t_pocetno=')
+t_zavrsno=input('unesi zavrsno vrijeme, t_zavrsno=')
+t=t_pocetno:0.01:t_zavrsno; % kreiranje vremenske ose
+x=polyval(koef_polinoma,t); % naredba kojom se racunaju vrijednosti polinoma u svim tackama vremenske ose t
+plot(t,x, 'LineWidth',3)
+
+
+
+2.for petlja
+matrica=[1 2 3;4 5 6];
+for i=matrica
+    disp(i)
+end
+
+
+3.
+A=input('A=')
+B=input('B=')
+if A<B
+    disp('A je manje od B')
+elseif A>B
+    disp('A je vece od B')
+else
+    disp('A je jednako B')
+end
+
+
+4.Kocka
+m=[0 0 0;1 0 0;1 1 0;0 1 0;0 0 1;1 0 1;1 1 1;0 1 1];
+n=[1 2 6 5;2 3 7 6;3 4 8 7;4 1 5 8;1 2 3 4;5 6 7 8];
+col=[0;1];
+patch('Faces',n,'Vertices',m,'FaceVertexCData',cool(6),'FaceColor','flat');
+xlabel('x osa');
+ylabel('y osa');
+
+zlabel('z osa');
+title('Kocka');
+
+
+
+
+
+
+5.kocka 2
+x1=0;
+x2=1;
+y1=0;
+y2=1;
+x = [x1, x2, x2, x1, x1];
+y = [y1, y1, y2, y2, y1];
+plot(x, y, 'b-', 'LineWidth', 3);
+hold on;
+x1=0.25;
+x2=.75;
+y1=0.25;
+y2=.75;
+x = [x1, x2, x2, x1, x1];
+y = [y1, y1, y2, y2, y1];
+plot(x, y, 'b-');
+xlim([-1, 2]);
+ylim([-1, 2]);
+
+
+
+6.korisnik unese broj n i onda prog izbaci neke matrice
+N=input('Unesite prirodan broj N');
+if round(N)~=N | N<=2 | N>=12
+    error('N je van granica')
+end
+
+for i=1:N
+    for j=1:N
+        if i==j
+            A(i,j)=4+i;  %ovo je dato u zadatku ako je i==j
+        end
+        if i>j
+            A(i,j)=i-2*i^2;  %ovo je dato u zadatku za i>j
+        end
+        if j>i
+            A(i,j)=3*i^(1/2)-j;   %dato u zadatku za j>i
+        end
+    end
+end
+
+A
+
+%formirati vektor Bk od parnih kolona mtrice A
+
+for k=2:2:N
+    eval(['B' num2str(k) '=A(:,k)']);
+end
+
+
+%formirati matricu C koju sacinjavaju neparne vrste matrice A i izracunati
+%sumu elemenata matrice C
+
+C=A(1:2:N,:)
+sumamatriceC=sum(sum(C))
+
+
+
+
+
+7.
+%formirati matricu A imaju  neki uslovi 
+
+n=input('unesite n=')
+
+if round (n)~=n | n<=4 | n>=12
+    error('Broj n nije dobro unijet')
+end
+
+%formiranje matrice A(2n,n)
+for i=1:2*n
+    for j=1:n
+        
+        if i-j<0
+            A(i,j)=i^2+3;
+        elseif i==j
+            A(i,j)=i-8;
+        elseif i>j+1
+            A(i,j)=3*i-2*j;
+        else
+            A(i,j)=i-2*j;
+        end
+    end
+end
+A
+
+%formirati vektor Bk(k=2,4,..) od parnih kkolona mtrice A
+
+for i=2:2:n
+    eval(['B' num2str(i) '=A(:,i)'])
+end
+
+%racunanje sume elemenata svih neparnih vrsta matrice A
+
+C=A(1:2:2*n);
+suma=sum(sum(C))
+
+
+%nalazenje maksimalne vrijednosti u polju brojeva A i njegove pozicije
+[Vrijednost,kolona]=max(max(A));
+[Vrijednost,vrsta]=max(max(A'));
+Vrijednost
+vrsta
+kolona
+
+     
+       
+        
+8.matrica for petlje
+x=zeros(3,8);
+for i=1:3
+    for j=1:8
+        x(i,j)=i+j;
+    end
+end
+x
+
+
+
+
+9.matrica Nx2N
+N=input('Unesite prirodan broj N');
+if round(N)~=N | N<=2 | N>=13
+    error('Unijeli ste broj koji ne zadovoljava uslov')
+end
+%formirati matricu Nx2N osobina matrice 0<a(i,j)<20
+A=round(20*rand(N,2*N))
+%koliko elemenata u matrici im vrijednost 10
+b=(A==10)
+disp('Elemenata koji su jednaki 10 ima')
+sum(sum(b))
+%svim manjim od 10 dodijeliti vrijdnost 22,2
+c=22.2*(A<10)+A.*(A>=10)
+
+
+
+10. piramida 
+x=[1 5 3];
+y=[1 1 3];
+z=[1 1 3];
+patch(x,y,z,'y');
+hold on
+x=[1 5 5 1];
+y=[1 1 1 1];
+z=[1 1 5 5];
+patch(x,y,z,'k');
+hold on
+x=[5 5 3];
+y=[1 1 3];
+z=[1 5 3];
+patch(x,y,z,'g');
+hold on
+x=[5 1 3];
+y=[1 1 3];
+z=[5 5 3];
+patch(x,y,z,'m');
+hold on
+x=[1 1 3];
+y=[1 1 3];
+z=[1 5 3];
+patch(x,y,z,'b');
+hold on
+
+
+
+11.trigonometrijske funkcije 
+x=0:0.1:10;
+f1=sin(x);
+f2=cos(x);
+f3=tan(x);
+f4=cot(x);
+subplot(231)
+plot(x,f1,'m--','Linewidth',2)
+xlabel('x osa');
+ylabel('y osa');
+title('Funkcija sin(x)')
+axis([0 10 -5 5])
+subplot(232)
+plot(x,f2,'b*')
+xlabel('x osa');
+ylabel('y osa');
+title('Funkcija cos(x)')
+axis([0 10 -5 5])
+subplot(233)
+plot(x,f3,'r')
+xlabel('x osa');
+ylabel('y osa');
+title('Funkcija tan(x)')
+subplot(2,3,[4 6])
+plot(x,f4,'g')
+xlabel('x osa');
+ylabel('y osa');
+title('Funkcija cot(x)')
+
+
+
+12.razvrstavanje cijene voca po klasama
+
+klasa_voca=input('unesi klasu voca(1,2,3)...')
+
+switch klasa_voca
+    case 1
+        disp('cijena prve klase voca iznosi 20km')
+    case 2
+        disp('cijena  druge klasee voca iznosi 15km')
+    case 3
+        disp('cijena trece klase voca iznoci 10km')
+    otherwise
+        disp('voce nije kategorizirano po klsama')
+end
+
+
+
+13. zbir razlika
+function [zbr,raz] = zbroj_razlika(x,y)
+% zbroj_razlika: zbrajanje i oduzimanje dva broja
+% [zbr,raz] = zbroj_razlika(x, y)
+% ulazne velicine: x ,y
+% izlazne velicine: zbr (x+y), raz (x-y)
+%kod funkcije:
+
+zbr=x+y;
+raz=x-y;
+end
+
+
+
+14.zvijezda
+x=[cos(0) 2*cos(pi/6) cos(pi/3) 2*cos(pi/2) cos(2*pi/3) 2*cos(5*pi/6) cos(pi) 2*cos(7*pi/6) cos(4*pi/3) 2*cos(3*pi/2) cos(5*pi/3) 2*cos(11*pi/6) cos(0)];
+y=[sin(0) 2*sin(pi/6) sin(pi/3) 2*sin(pi/2) sin(2*pi/3) 2*sin(5*pi/6) sin(pi) 2*sin(7*pi/6) sin(4*pi/3) 2*sin(3*pi/2) sin(5*pi/3) 2*sin(11*pi/6) sin(0)];
+Z=fill(x,y,'G','Linewidth',1);
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+axis([-5 5 -5 5])
+
+
+15.
+clear all;
+clc;
+imali(205)=0;
+for i=1:12
+    unesen = 0;
+    while(unesen==0)
+        a = input('unesi broj\n');
+        if(imali(a+100))
+            fprintf('vec uneseno\n');
+        else
+            unesen=1;
+            imali(a+100)=1;
+            niz(i)=a;
+        end
+    end
+end
+niz=sort(niz,'descend');
+
+for i=1:12
+    fprintf('%d ',niz(i));
+    if(mod(i,3)==0)
+        fprintf('\n');
+    end
+end
+
+
+
+16. Brojevi uslova
+m = input('unesi m\n');
+n = input('unesi n\n');
+brojac=1;
+for i=1:m
+    for j=1:n
+        A(i,j)=input('unesi element matrice ');
+        if(A(i,j)<=26)
+            niz(brojac)='a'+A(i,j)-1;
+        end
+        if(A(i,j)>26)
+            niz(brojac)='A'+A(i,j)-27;
+        end
+        brojac=brojac+1;
+    end
+end
+for i=1:m*n
+    fprintf('%c ',niz(i));
+end
+
+
+
+17. Cetverostrana piramida
+clear all
+close all
+a=3;
+h=4;
+P=a^2+2*a*h;
+V=a^2*h./3;
+disp('Povrsina cetverostrane piramide je: ');
+P
+disp('Zapremina cetverostrane piramide je: ');
+V
+
+
+x = [0 3 3 0];
+y = [0 0 3 3];
+z = [0 0 0 0];
+patch(x,y,z,'k');
+hold on;
+x = [0 3 1.5];
+y = [0 0 1.5];
+z = [0 0 4];
+patch(x,y,z,'b');
+hold on;
+x = [3 3 1.5];
+y = [3 0 1.5];
+z = [0 0 4];
+patch(x,y,z,'g');
+hold on;
+x = [0 0 1.5];
+y = [3 0 1.5];
+z = [0 0 4];
+patch(x,y,z,'y');
+hold on;
+x = [0 3 1.5];
+y = [3 3 1.5];
+z = [0 0 4];
+patch(x,y,z,'r');
+hold on;
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+grid on
+
+
+18.dani u martu 
+a=input('Unesite broj od 1-31')
+
+    switch a
+        case {2,9,16,23,30}
+            disp('Ponedjeljak')
+        case {3,10,17,24,31}
+            disp('Utorak')
+        case {4,11,18,25}
+            disp('Srijeda')
+        case {5,12,19,26}
+            disp('Cetvrtak')
+        case {6,13,20,27}
+            disp('Petak')
+        case {7,14,21,28}
+            disp('Subota')
+        case {1,8,15,22,29}
+            disp('Nedjelja')
+        otherwise
+            disp('Unijeli ste pogresan broj')
+    end
+
+
+
+19. Funkcija z na nekoliko nacina odjednom
+clear all
+clc
+ 
+[x,y] = meshgrid([-2:2]);
+z = x*exp(-x.^2-y.^2);
+ 
+subplot(3,2,1);
+contour3(x,y,z);
+colormap spring;
+xlabel('x osa');
+ylabel('y osa');
+colorbar
+grid off
+ 
+subplot(3,2,2);
+surf(x,y,z);
+xlabel('x osa');
+ylabel('y osa');
+ 
+ 
+subplot(3,2,3);
+mesh(x,y,z);
+xlabel('x osa');
+ylabel('y osa');
+ 
+subplot(3,2,4);
+ezsurf(' x.*exp(-x.^2-y.^2)',[-2 2 -2 2]);
+ 
+ 
+subplot(3,2,[5 6]);
+ezmesh(' x.*exp(-x.^2-y.^2)', [-2 2 -2 2]);
+
+
+20. funckija na nekoliko nacina
+[x,y]=meshgrid(0:0.1:10*pi,0:0.1:10*pi);
+z=(cos(x)).^2+(sin(y)).^3;
+
+subplot(2,3,1);
+surf(x,y,z);
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba surf');
+
+subplot(2,3,2);
+mesh(x,y,z);
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba mesh');
+
+subplot(2,3,3);
+contour3(x,y,z,30);
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba contour3');
+
+subplot(2,3,[4,5,6]);
+x1=0:0.1:10*pi;
+y1=0:0.1:10*pi;
+z1=cos(x1).^2 +sin(y1).^3;
+s=50;
+c=linspace(1,1000,length(x1))
+scatter3(x1,y1,z1,s,c)
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba scatter3');
+
+
+21. Kub brojeva
+n = input('unesi broi od 10 do 50 (n)');
+m = input('unesi broi od 10 do 50 (m)');
+
+if(n<10 | n>50 | m<10 | m>50)
+    error('brojevi moraju biti od 10 do 50');
+end
+
+for i=n:m
+    if(mod(i,2)==0)
+        kub=i^3
+    end
+end
+
+
+22.Plot,stem,bar
+x=0:10;
+y=sin(x)+x.^2;
+x1=[1 1 0 0];
+y1=[1 0 1 0];
+z1=[1 1 1 1];
+k=[ 1 2 3 ; 4 5 6 ; 3 4 5];
+s=[1 4 2.5 8 5.5];
+subplot(421);
+plot(x,y, 'y','linewidth', 3);
+title('plot');
+subplot(422);
+plot3(x1,y1,z1,'y','linewidth', 3);
+title('plot3');
+stem(x,y,'g');
+title('stem');
+subplot(424);
+stem3(y);
+title('stem3');
+subplot(425)
+m=bar('v6',k);
+title('bar');
+subplot(426);
+n=bar3(k);
+title('bar3');
+subplot(427);
+pie(s);
+title('pie');
+subplot(428);
+pie3(s);
+title('pie3');
+
+
+23. Povrsina trougla
+
+a=input('unesite  stranicu a')
+b=input('unnesite stranicu b')
+c=input('unesite stranicu c')
+
+if(a<b+c)
+    if(b<a+c)
+        if(c<a+b)
+s=(a+b+c)/2;
+P=sqrt(s*(s-a)*(s-b)*(s-c));
+txt=sprintf('\n Povrsina je: %f ',P)
+        else disp('Ovo ne mogu biti stranice trougla')
+        end
+    end
+
+end
+
+
+24.sabiranje telefonskih brojeva
+clc;
+clear all;
+n = input('unesite broj korisnika\n');
+for i=1:2
+    for j=1:n
+        if(i==1)
+            fprintf('Unesite ime %d-og korisnika: ',j);
+            Korisnici(j).ime = input('','s');
+        end
+        if(i==2)
+            fprintf('Unesite broj telefona %d-og korisnika\n',j);
+            zb=0;
+            for brojac=1:9
+                prosao = 0;
+                while(prosao==0)
+                    xb = input('');
+                    if(xb<0 | xb>9)
+                        fprintf('pogresan unos, unesi tu cifru ponovo\n');
+                    end
+                    if(xb>=0 & xb<=9)
+                        prosao=1;
+                        zb = zb+xb;
+                    end
+                end
+            end
+            Korisnici(j).broj = zb;
+        end
+    end
+end
+opcija = input('odaberi opciju\n');
+fprintf('korisnik je %s i ima vrijednost %d', Korisnici(opcija).ime, Korisnici(opcija).broj);
+
+
+25. Struktura sa informacijama o ucenicima
+polje1 = 'Ime';
+vr1 = {{'Ema','Ajdin','Sabina','Daniel','Kenan','Edin','Zlatko','Elizabeta'}};
+polje2='Prezime';
+vr2={{'Sasic','Mujic','Salkic','Odic','Sjenar','Besic','Pejic','Karabegovic'}};
+polje3='Nadimak';
+vr3={{'Bebi','Dino','Bina','Dani','Keno','Edo','Zlatan','Beta'}}
+polje4='Godine';
+vr4=[24 32 40 18 17 33 25 29];
+s = struct(polje1,vr1,polje2,vr2,polje3,vr3,polje4,vr4);
+s.Ime
+s.Prezime
+s.Nadimak
+s.Godine
+s
+
+ 26.Matrica sa zbirom i razlikom
+m = input('unesi broj redova\n');
+n = input('unesi broj kolona\n');
+pom = 1;
+pom2 = 1;
+zb = 0;
+od = 0;
+for i=1:m
+ for j=1:n
+ A(i,j)=input('unesi element\n');
+ if(i>j)
+ pom2=pom2*A(i,j);
+ end
+ if(i<j)
+ pom=pom*A(i,j);
+ end
+ if(i==j & mod(A(i,j),2)==0)
+ zb=zb+A(i,j);
+ end
+ if(i==j & A(i,j)<0)
+ od=od-A(i,j);
+ end
+ end
+end
+pom
+(A(2,1)*A(2,1))/pom2
+zb
+od
+
+27.abeceda
+%Napisati program koji unosi proizvoljnu matricu sa tastature i od matrice
+%pravi niz. Od navedenog niza svaki broj zamijeniti slovom koji odgovara
+%navedenom mjestu u abecedi. U slucaju da je broj veci od 26 onda ispisati
+%sa velikim slovima po istom redoslijedu
+clear
+
+abeceda = ['a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' 'A' 'B' 'C' 'D' 'E' 'F' 'G' 'H' 'I' 'J' 'K' 'L' 'M' 'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V' 'W' 'X' 'Y' 'Z'];
+red = input('Unesite broj redova:')
+kolona = input('Unesite broj kolona:')
+
+for i=1:red
+    for j=1:kolona
+        matrica(i,j)=input('Unesite element matrice')
+    end
+end
+velicina_niza = red*kolona
+k = 1
+for i=1:red
+    for j=1:kolona
+        niz(k)=matrica(i,j)
+        k=k+1
+    end
+end
+disp('ISPISUJEM NIZ!')
+for i=1:velicina_niza
+    disp(niz(i))
+end
+
+for i=1:velicina_niza
+    k = niz(i)
+    novi_niz(i) = abeceda(k)
+end
+
+for i=1:velicina_niza
+    disp(novi_niz(i))
+end
+
+27.filmski kadar
+%getframe i movie
+
+t=0:pi/10:20*pi;
+x=sin(t);
+y=t
+z=cos(t);
+h=plot3(sin(t),t,cos(t),'m*-','linewidth',3,'markeredgecolor','green')
+xlabel('X')
+ylabel('Y')
+zlabel('Z')
+axis([-1 1 0 140 -1 1])
+
+for j=1:60
+    zdir=[0 1 0]
+    center=[0 40 0]
+    pause(2/60)
+    rotate(h,zdir,6,center)
+    %set(h,'y',y+j); trebala bi ici ova naredva, ali iz nekog razloga ne radi. Rekao Mujcic da obrisemo
+    f(j)=getframe;
+end
+movie(f,5,3)
+
+
+28.primjer trougao
+%Nacrtati jednakostranicni trougao cija je stranica duzine 2 i rotirati oko
+%vrha C 5 puta u vremenu od 3 sekunde. Rotaciju izvrsiti po Z osi
+
+x=[0 2 0];
+y=[0 0 1.73];
+z=[0 0 0];
+k=patch(x,y,z,'yellow');
+axis([-2 5 -2 5])
+pause
+for i=1:60
+    zdir = [0 0 1]
+    center = [1 2 0]
+    pause(3/60)
+    rotate(k,zdir,30,center);
+end
+
+
+27.
+%cilindar
+
+clc
+clear all
+
+x = 0:0.1:4;
+y = 0:0.1:4;
+[X,Y]=meshgrid(x,y)
+z = X
+surf(x,y,z)
+hold on
+xlabel('X')
+R=1;
+x0=2;y0=2;z0=0;
+h=4
+[x,y,z]=cylinder(R)
+x=x+x0;
+y=y+y0;
+z=z*h+z0;
+surf(x,y,z)
+
+ 28. Nacrtati x^2+y^2-z^2=-9
+
+clear
+clc
+[x,y]=meshgrid(-10:0.5:10, -10:0.5:10);
+z=sqrt(x.^2+y.^2+9)
+surf(x,y,z);
+hold on
+z=-sqrt(x.^2+y.^2+9)
+surf(x,y,z);
+
+
+29.crtanje funkcije
+x = 0:10*pi
+y = 0:10*pi
+
+[x,y]=meshgrid(x,y)
+z = [cos(x)+cos(x)]+[sin(x)*sin(x)*sin(x)]
+subplot(311)
+surf(x,y,z)
+hold on
+subplot(312)
+mesh(x,y,z)
+subplot(313)
+contour(x,y,z)
+  
+
+
+30. Kazaljka sat
+clear all
+clc
+
+r = 0:0.1:2*pi
+x = sin(r)+5
+y = cos(r)+5
+
+patch(x,y,'yellow')
+x = [5 5 6 6]
+y = [4.9 5.1 5.1 4.9]
+kazaljka = patch(x,y,'red')
+
+x1 = x
+y1 = y
+smjer = [0 0 1]
+centar = [5 5]
+pause
+for i=1:180
+    rotate(kazaljka,smjer,6)
+    pause(1/30)
+end
+    
+
+
+31. Korisnici%
+clc
+clear all
+
+broj = input('Unesite broj korisnika')
+
+ime = strings(1,broj)
+for i=1:broj
+    ime(1,i)=input('Unesite ime:','s')
+end
+
+broj2 = 9*broj
+for i=1:broj2
+    brojTelefona(i)=input('Broj telefona')
+end
+
+suma = 0
+opcija = input('Unesite opciju')
+if opcija==1
+    for i=1:9
+        suma = suma+brojTelefona(i)
+    end
+else if opcija==2
+    for i=10:19
+        suma = suma+brojTelefona(i)
+    end
+    end
+end
+
+
+32.Kretanje tijela
+clear all
+clc
+
+x = [0 1 1 0]
+y = [1 1 2 2]
+oblik = patch(x,y,'red')
+x = [0 8 8 0]
+y = [0 0 1 1]
+patch(x,y,'blue')
+axis([0 8 0 8])
+pause
+x1 = [0 1 1 0]
+y1 = [1 1 2 2]
+for i=1:60
+    
+    x1 = x1+7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+    
+      
+end
+for i=1:60
+    
+    x1 = x1-7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+      
+end
+for i=1:60
+    
+    x1 = x1+7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+      
+end
+for i=1:60
+    
+    x1 = x1-7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+      
+end
+for i=1:60
+    
+    x1 = x1+7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+      
+end
+for i=1:60
+    
+    x1 = x1-7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+      
+end
+for i=1:60
+    
+    x1 = x1+7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+      
+end
+for i=1:60
+    
+    x1 = x1-7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(0.5/60)
+      
+end
+for i=1:60
+    
+    x1 = x1+7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(1/60)
+      
+end
+for i=1:60
+    
+    x1 = x1-7/60
+    y1 = y1
+    set(oblik,'x',x1,'y',y1)
+    pause(1/60)
+      
+end
+
+
+33.  Matrice
+clear
+clc
+
+red = input('Unesite broj redova')
+kolona = input('Unesite broj kolona')
+
+for i=1:red
+    for j=1:kolona
+        matrica(i,j)=input('Unesite element matrice')
+    end
+end
+disp('Dijagonalna matrica:')
+diag(matrica)
+disp('Inverzna matrica:')
+inv(matrica)
+disp('Gornja trougaona:')
+triu(matrica)
+disp('Donja trougaona:')
+tril(matrica)
+
+
+34. Matrica 4x2
+
+clc
+clear all
+for i=1:8
+    niz(i)=input('Unesite broj')
+end
+
+while niz(2)==niz(1)
+    niz(2) = input('Ponavljam upis drugog elementa')
+end
+while niz(3)==niz(2) || niz(3)==niz(1)
+    niz(3) = input('Ponavljam upis treceg elementa')
+end
+while niz(4)==niz(3) || niz(4)==niz(2) || niz(4)==niz(1)
+    niz(4) = input('Ponavljam upis cetvrtog elementa')
+end
+while niz(5)==niz(4) || niz(5)==niz(3) || niz(5)==niz(2) || niz(5)==niz(1)
+    niz(5) = input('Ponavljam upis petog elementa')
+end
+while niz(6)==niz(5) || niz(6)==niz(4) || niz(6)==niz(3) || niz(6)==niz(2) || niz(6)==niz(1)
+    niz(6) = input('Ponavljam upis sestog elementa')
+end
+
+
+B = sort(niz,'desc')
+
+k = 1
+for i=1:4
+    for j=1:2
+        matrica(i,j) = B(k)
+        k = k+1
+    end
+end
+
+
+35. Nacrtati piramidu
+
+clear all
+clc
+axis([-5 5 -5 5 -5 5])
+x = [0 3 3 0]
+y = [0 0 3 3]
+z = [0 0 0 0]
+patch(x,y,z)
+hold on
+x = [0 3 1]
+y = [0 0 1]
+z = [0 0 4]
+patch(x,y,z,'red')
+
+
+36. Recenica
+clear all 
+clc
+
+recenica = input('Unesite recenicu','s')
+duzina = length(recenica)
+
+for i=duzina:-1:1
+      disp(recenica(i))  
+end
+
+k = 1
+brojac = 0
+for i=1:duzina
+    if recenica(i) == ' '
+        niz(k) = brojac
+        brojac = 0
+        k = k+1
+    end
+    if recenica(i) == 'a' 
+        brojac = brojac+1
+    end
+    if recenica(i) == 'e' 
+        brojac = brojac+1
+    end
+    if recenica(i) == 'i' 
+        brojac = brojac+1
+    end
+    if recenica(i) == 'o' 
+        brojac = brojac+1
+    end
+    if recenica(i) == 'u' 
+        brojac = brojac+1
+    end
+end
+
+niz
+
+37.Rotiranje i pomjeranje
+clear all
+clc
+
+x = [0 10 10 0]
+y = [0 0 2 2]
+patch(x,y,'red')
+axis([0 10 0 10])
+
+pi = 0:0.1:2*pi
+x = sin(pi)+1
+y = cos(pi)+3
+oblik = patch(x,y,'red')
+
+x1 = x
+y1 = y
+dir = [0 1 0]
+alfa = 45
+centar = [x1 y1]
+for i=1:16
+    x1 = x1+0.5
+    set(oblik, 'x', x1, 'y', y1)
+    pause(3/60)
+end
+for i=1:16
+    x1 = x1-0.5
+    set(oblik, 'x', x1, 'y', y1)
+    pause(3/60)
+end
+
+
+
+
+_________________________________________________________________________________________
+
+
+1.Nacrtati proizvoljan objekat u programskom jeziku MATLAB, također uzeti proizvoljno vrijeme kretanja i dužinu pomjeranja, pri tome koristiti naredbe za animacije kao što su set, rotate, getframe I movie.
+U sklopu rješenja biće nacrtan četverougao i izvršeno njegovo pomjeranje u smjeru X-ose za njegovu dužinu u vremenu od 8 sekundi. Odmah nakon toga će se pomjerati u smjeru Y-ose za tri njegove dužine u vremenu od dvije sekunde, te se nakon toga vraća u početni položaj u vremenu od dvije sekunde. Također ću nacrtati plohu z = sin(2*(x^2)+y^2) i izvršiti njenu rotaciju za dva kruga u vremenu od tri sekunde.
+ subplot(211)
+t = (1/10:1/5:1)*2*pi;  %cetverougao
+x = sin(t);  %duzina stranice je 2cm
+y = cos(t);
+h=fill(x,y,'b'); %naredbom fill crtamo cetverougao
+axis([-2 8 -2 8])
+x1=x;
+y1=y;
+for i=1:20 %s for petljom zelimo da postignemo detaljno kretanje objekta, ne zelimo da naglo predje s jedne tacke u drugu.
+x1=x1+0.1; %njegova duzina je 2cm, ako zelimo po x osi da se pomjeri za svoju dužinu dodajemo 0.1, jer 20*0.1=2, tacna duzina cetverougla
+y1=y1; %po y-osi drzimo konstantu
+pause(0.4) %naredba za vremensko kontrolisanje kretanja, zadaje se u sekundama, kada pomnožimo 0.4 sekunde da sa 20 (for petlja) dobijemo tacno 8 sekundi, koliko se i treba pomjeriti
+set(h,'x',x1,'y',y1) %naredbom set vrsimo pomjeranje tog objekta, h je ime objekta,a x1 i y1 su ose
+end
+ 
+for i=1:20 %opet petlja ide u 20 koraka, detaljan prikaz pomjeranja
+x1=x1; %po x-u ostaje nepromjenjena duzina
+y1=y1+6/20; %y-se pomjera za 3 njegove duzine po y osi,njegova duzina je 2 I pomnozeno s tri pomjeraja dobijemo 6, moramo to podijeliti s brojem tacaka
+pause(0.1) %vremenski kada pomnozimo 0.1 sa 20 dobijemo 2 sekunde u kojima se mora kretati po y osi
+set(h,'x',x1,'y',y1) %pomjeramo sad ovaj put po y osi
+end
+ 
+for i=1:20
+x1=x1-2/20; % po x smo pomjerili za 2cm,tj njegovu dužinu,zato sad to i vracamo nazad 
+y1=y1-6/20; % po y smo pomjerili za 3 njegove duzine, te taj dio i oduzimamo
+pause(0.1) %ako pomnozimo 20 sa 0.1 dobit cemo te dvije sekunde za koje se mora vratiti u pocetni polozaj
+set(h,'x',x1,'y',y1) %vrsi pomjeranje
+end
+ 
+[x, y] = meshgrid([-2 : 0.1 : 2]); %formiramo mrezu od ulaznih vrijednosti, u okviru od -2 do 2, s korakom 0.1
+z = sin(2.*(x.^2) + (y.^2)); %funkcija koju rotiramo
+subplot(2,1,2),k=surf(x,y,z) %crtanje funkcije
+axis tight
+for i=1:100
+zdir = [0 0 1]; %okrece se po z osi
+center = [0 0 0]; %centar u koordinatnom pocetku
+rotate(k,zdir,7.2,center) % iscrtava plohu pod nazivom k, okrece je po z osi ,pod uglom 7.2 i centar je u koordinatnom pocetku
+pause(3/100) %da dobijemo 3 sekunde dijelimo s ukupnim brojem for petlje
+end
+
+2. Hiperboloid
+[x, y] = meshgrid(-10:1:10, -10:1:10);
+z1 = sqrt(x.^2+y.^2+9);
+surfc(x, y, z1)
+hold on
+z2 = -sqrt(x.^2+y.^2+9);
+surfc(x, y, z2)
+hold on
+
+3. cunj
+[x, y] = meshgrid(-10:1:10, -10:1:10);
+z1 = sqrt(x.^2+y.^2);
+surf(x, y, z1)
+hold on
+z2 = -sqrt(x.^2+y.^2);
+surf(x, y, z2)
+hold on
+
+4. Funkcija 
+clear all
+close all
+t=0:0.01:2*pi;
+T1=4;
+w1=2;
+fi1=45;
+f1=exp(-t./T1).*sin(w1.*t-fi1);
+T2=2;
+w2=4;
+fi2=30;
+f2=exp(-t./T2).*sin(w2.*t-fi2);
+
+subplot(2,1,1)
+plot(t,f1,'b','linewidth',2)
+xlabel('x osa')
+ylabel('y osa')
+title('Funkcija f1')
+grid on
+set(gca,'xtick',0:pi/4:2*pi)
+set(gca,'xticklabel',{'0','pi/4','pi/2','3pi/4','pi','5pi/4','3pi/2','7pi/4','2pi' })
+
+subplot(2,1,2)
+plot(t,f2,'r','linewidth',2)
+xlabel('x osa')
+ylabel('y osa')
+title('Funkcija f2')
+grid on
+set(gca,'ytick',0:pi/4:2*pi)
+set(gca,'yticklabel',{'0','pi/4','pi/2','3pi/4','pi','5pi/4','3pi/2','7pi/4','2pi' })
+
+5. Funkcija sa kolokvija
+clc
+clear
+t=0:0.01:2*pi;
+T1=4;
+w1=2;
+fi1=45;
+f1=exp(-t./T1).*sin(w1.*t-fi1);
+T2=2;
+w2=4;
+fi2=30;
+f2=exp(-t./T2).*sin(w2.*t-fi2);
+
+subplot(2,1,1)
+plot(t,f1,'r','linewidth',2)
+xlabel('x osa')
+ylabel('y osa')
+grid on
+title ('funkcije')
+set(gca,'xtick',0:pi/4:2*pi)
+set(gca,'xticklabel',{'0','pi/4','pi/2','3*pi/4','pi','5*pi/4','3*pi/2','7*pi/4','2*pi'})
+title('Funkcija f1')
+
+subplot(2,1,2)
+plot(t,f2,'b','linewidth',2)
+xlabel('x osa')
+ylabel('y osa')
+grid on
+title ('funkcije')
+set(gca,'xtick',0:pi/4:2*pi)
+set(gca,'xticklabel',{'0','pi/4','pi/2','3*pi/4','pi','5*pi/4','3*pi/2','7*pi/4','2*pi'})
+title('Funkcija f2')
+
+6. Pokusaaj kuce
+kucapokusaj2.m
+Tko ima pristup
+
+Svojstva sustava
+Vrsta
+Objective C
+Veličina
+1 KB
+Iskorištena pohrana
+1 KB
+Lokacija
+MATLAB
+Vlasnik
+Nurfet Mehulic
+Izmijenjeno
+8. tra 2021., Nurfet Mehulic
+Otvoreno
+ja u 00:08
+Izrađeno
+8. tra 2021.
+Nema opisa
+Pregledači mogu preuzimati
+x1=[1 4 4 1];
+y1=[4 4 6 6];
+zid=patch(x1,y1,'y')
+
+x2=[2 3 3 2];
+y2=[2.7 2.7 3.5 3.5];
+prozor=patch(x2,y2,'b')
+
+x3=[2 3.5 3.5 2];
+y3=[1.5 1.5 2.2 2.2];
+vrata=patch(x3,y3,'g')
+
+x4=[4 5.5 5.5];
+y4=[2.5 1 4];
+krov=patch(x4,y4,'r')
+axis([0 10 0 7])
+pause(1)
+for i=1:60
+    x11=x1;
+    y11=y1;
+    x11=x11+5;
+    y11=y11-3;
+    pause((13/4)/60)
+    set(zid,'x',x11,'y',y11)
+end
+for i=1:60
+    x22=x4;
+    y22=y4;
+    x22=x22;
+    y22=y22+2;
+    pause((13/4)/60)
+    set(krov,'x',x22,'y',y22)
+end
+a=4.75;
+b=4.5;
+rotate(krov,[0 0 1],270,[a b 0])
+V=get(krov,'Vertices');
+x33=[V(1,1) V(2,1) V(3,1)];
+y33=[V(1,2) V(2,2) V(3,2)];
+for i=1:60
+    x44=x33;
+    y44=y33;
+    x44=x44+2.75;
+    y44=y44-0.75;
+    pause((13/4)/60)
+    set(krov,'x',x44,'y',y44)
+end
+
+for i=1:60
+    x55=x2;
+    y55=y2;
+    x55=x55+5.6;
+    y55=y55-0.9;
+    pause((13/4)/60)
+    set(prozor,'x',x55,'y',y55)
+end
+
+a1=2.75;
+b1=1.85;
+rotate(vrata,[0 0 1],90,[a1 b1 0])
+V=get(vrata,'Vertices');
+x66=[V(1,1) V(2,1) V(3,1) V(4,1)];
+y66=[V(1,2) V(2,2) V(3,2) V(4,2)];
+
+for i=1:60
+    x77=x66;
+    y77=y66;
+    x77=x77+4;
+    y77=y77-0.1;
+    pause((13/4)/60)
+    set(vrata,'x',x77,'y',y77)
+end
+
+
+7. Kucica
+clc
+close all
+clear all
+x=[0 10 10 0]
+y=[0 0 10 10]
+z=[0 0 0 0]
+patch(x,y,z,'b')
+hold on
+
+x=[0 10 10 0]
+y=[0 0 0 0]
+z=[0 0 10 10]
+patch(x,y,z,'b')
+hold on
+
+x=[10 10 10 10]
+y=[0 10 10 0]
+z=[0 0 10 10]
+patch(x,y,z,'b')
+hold on
+
+x=[10 0 0 10]
+y=[10 10 10 10]
+z=[0 0 10 10]
+patch(x,y,z,'b')
+hold on
+
+x=[0 0 0 0]
+y=[10 0 0 10]
+z=[0 0 10 10]
+patch(x,y,z,'b')
+hold on
+
+x=[0 10 10 0]
+y=[0 0 10 10]
+z=[10 10 10 10]
+patch(x,y,z,'b')
+hold on
+
+x=[0 10 5]
+y=[0 0 5]
+z=[10 10 15]
+patch(x,y,z,'g')
+hold on
+
+x=[10 10 5]
+y=[0 10 5]
+z=[10 10 15]
+patch(x,y,z,'g')
+hold on
+
+x=[10 0 5]
+y=[10 10 5]
+z=[10 10 15]
+patch(x,y,z,'g')
+hold on
+
+x=[0 0 5]
+y=[10 0 5]
+z=[10 10 15]
+patch(x,y,z,'g')
+hold on
+
+x=[4 6 6 4]
+y=[0 0 0 0]
+z=[0 0 6 6]
+patch(x,y,z,'r')
+hold on
+
+x=[1 3 3 1]
+y=[0 0 0 0]
+z=[4 4 6 6]
+patch(x,y,z,'r')
+hold on
+
+x=[7 9 9 7]
+y=[0 0 0 0]
+z=[4 4 6 6]
+patch(x,y,z,'r')
+hold on
+
+8.Cilindar
+
+[x,y]=meshgrid([-2:0.5:2], [-2:0.5:2]);
+z=2-y;
+surf(x,y,z);
+hold on
+[x,y,z]=cylinder(1,20);
+z(2,:)=4;
+h=surf(x,y,z);
+set(h,'FaceAlpha',0.5);
+xlabel('x-osa');
+ylabel('y-osa');
+zlabel('z-osa');
+
+9. Petougao
+x=[2 2.5 2.5 0];
+y=[0 0 5 2.5];
+prva=patch(x,y,'r');
+x1=[2.5 3 5 2.5];
+y1=[0 0 2.5 5];
+druga=patch(x1,y1,'k');
+petougao=prva+druga;
+axis([0 30 0 30])
+grid on
+x11=prva;
+y11=druga;
+for i=1:20
+    x11=x11+6/20;
+    y11=y11;
+    pause(0.1)
+    set(druga,'x',x11,'y',y11)
+end
+    
+    
+9.Povrs
+clear all
+close all
+[x,y]=meshgrid(-2.5:0.1:2.5, -2.5:0.1:2.5);
+z1=sqrt((1/3)*(-x.^2-2*y.^2+21));
+z2=-sqrt((1/3)*(-x.^2-2*y.^2+21));
+surf(x,y,z1)
+hold on;
+surf(x,y,z2)
+hold on;
+z3=(1/6)*(21-x-4*y);
+hold on;
+surf(x,y,z3)
+z4=-(1/6)*(21-x-4*y);
+hold on;
+surf(x,y,z4);
+
+10. Prizma
+clear all
+close all
+vertices=[0 0 0;5 0 0;5 5 0;0 0 4;5 0 4;5 5 4];
+faces=[2 3 6 5;1 3 6 4;1 2 5 4; 1 2 3 NaN;4 5 6 NaN];
+p=patch('Vertices',vertices,'Faces',faces,'FaceColor',[0.7 0.7 0.7]);
+
+a=5;
+h=4;
+
+B=a.^2*sqrt(3)./4;
+M=3*a*h;
+P=2*B+M;
+V=B*h;
+
+disp('Povrsina je: ');
+disp(P)
+disp('Zapremina je');
+disp(V)
+
+
+11. Prizma 2
+
+clear all
+close all
+a=5;
+h=4;
+B=a.^2.*sqrt(3)./4;
+M=3*a*h;
+P=2*B+M;
+V=B*h; 
+disp('Povrsina prizme je: ')
+disp(P)
+disp('Zapremina prizme je: ')
+disp(V)
+
+x=[0,a,a];
+y=[0,0,a];
+z=[0,0,0];
+patch(x,y,z,'r');
+hold on
+
+x=[0,a,a];
+y=[0,0,a];
+z=[h,h,h];
+patch(x,y,z,'b');
+hold on
+
+x=[a,a,a,a];
+y=[0,a,a,0];
+z=[0,0,h,h];
+patch(x,y,z,'g');
+hold on
+
+x=[0,a,a,0];
+y=[0,0,0,0];
+z=[0,0,h,h];
+patch(x,y,z,'y');
+hold on
+
+x=[0,a,a,0];
+y=[0,a,a,0];
+z=[0,0,h,h];
+patch(x,y,z,'m');
+hold on
+
+
+12.rotirajuci sestougao
+
+t=(1/12:1/6:1)'*2*pi;
+x=sin(t)+1;
+y=cos(t)+2;
+h=fill(x,y,'k');
+axis([0 10 -10 10])
+
+
+xp=x
+yp=y
+xc=1
+yc=1
+for i=1:70
+    xp=xp+0.1;
+    yp=yp+0.01;
+    xc=xc+0.1;
+    yc=yc+0.01;
+    set(h,'x',xp,'y',yp)
+    rotate(h,[0 0 1],i*30,[xc,yc,0])
+    pause(0.1)
+end
+
+
+13.SEmafor
+x1=[-1.2 1.2 1.2 -1.2];
+y1=[-6.2 -6.2 1.2 1.2];
+vsemafor=patch(x1,y1,'black')
+hold on
+
+t=(0:1/360:1)'*2*pi;
+x=sin(t)
+y=cos(t)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'black')
+hold on
+axis([-2 5 -7 2])
+
+x2=[2.3 4.5 4.5 2.3];
+y2=[-6.2 -6.2 -2.5 -2.5];
+msemafor=patch(x2,y2,'black')
+hold on
+x3=0.8*cos(t);
+y3=0.8*sin(t);
+crvenom=fill(x3+3.4,y3-3.4,'black')
+hold on
+zelenom=fill(x3+3.4,y3-5.1,'black')
+hold on
+for i=1:3
+    pause(0.5)
+crveno=fill(x,y,'red')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'black')
+hold on
+end
+for i=1:6
+    pause(0.5)
+    crvenom=fill(x3+3.4,y3-3.4,'black')
+    hold on
+    zelenom=fill(x3+3.4,y3-5.1,'g')
+    hold on
+end
+    
+for i=1:3
+    pause(0.5)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'y')
+hold on
+zeleno=fill(x,y-5,'black')
+hold on
+end
+for i=1:3
+    crvenom=fill(x3+3.4,y3-3.4,'r')
+    hold on
+    zelenom=fill(x3+3.4,y3-5.1,'black')
+    hold on
+end
+for i=1:3
+    pause(1)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'g')
+hold on
+end
+
+%titranje zelenog svjetla
+for i=1:1
+    pause(0.5)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'black')
+hold on
+end
+for i=1:1
+    pause(0.5)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'g')
+hold on
+end
+for i=1:1
+    pause(0.5)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'black')
+hold on
+end
+for i=1:1
+    pause(0.5)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'g')
+hold on
+end
+for i=1:1
+    pause(0.5)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'black')
+hold on
+end
+for i=1:1
+    pause(0.5)
+crveno=fill(x,y,'black')
+hold on
+zuto=fill(x,y-2.5,'black')
+hold on
+zeleno=fill(x,y-5,'g')
+hold on
+end
+
+14. Rotirajuci sestougao koji se rotira po crvenoj linijij
+clc
+clear all
+close all
+x=[0 10 10 0]
+y=[0 0 0.8 0.8]
+patch(x,y,'r')
+hold on
+
+t=(1/12:1/6:1)'*2*pi
+x1=sin(t)+1
+y1=cos(t)+2
+h=fill(x1,y1,'y');
+axis([-2 12 -12 12])
+grid on
+x11=x1;
+y22=y1;
+cx=1;
+
+for k=1:5
+for i=1:30
+zdir=[0 0 1];
+center=[cx 2 0]    
+
+    set(h,'x',x11,'y',y22)
+    rotate(h,zdir,i*30,center)
+    cx=cx+0.27444;
+  
+    x11=x11+0.27444;
+    y22=y22;
+    
+    pause(0.025)
+end
+
+for j=1:30
+    zdir=[0 0 1];
+     cx=cx;
+     center=[cx 2 0];
+  
+    set(h,'x',x11,'y',y22)
+    rotate(h,zdir,j*30,center) 
+      x11=x11-0.27444;
+    y22=y22;
+    cx=cx-0.27444;
+    pause(0.025)
+end
+end
+
+15. Strelica koja pokazuje na mjeracu od 1 do 12
+x=[-1 7 7 -1];
+y=[0 0 -7 -7]
+bg=patch(x,y,'m')
+hold on
+
+xl = [0 6 6 0];
+yl = [-1 -1 -2 -2];
+linijar = patch(xl, yl, 'm');
+hold on
+
+text(0.15,-1.75,'0')
+text(0.25,-2,'|')
+text(0.75,-2,'|')
+text(1.25,-2,'|')
+text(1.75,-2,'|')
+text(2.25,-2,'|')
+text(2.75,-2,'|')
+text(3.25,-2,'|')
+text(3.75,-2,'|')
+text(4.25,-2,'|')
+text(4.75,-2,'|')
+text(5.25,-2,'|')
+text(5.75,-2,'|')
+text(5.7,-1.75,'12')
+hold all
+
+xk=[0.2 0.2 0 0.25 0.5 0.3 0.3];
+yk=[-4 -2.2 -2.2 -2 -2.2 -2.2 -4];
+strelicaa=patch(xk,yk,'r')
+
+for i=1:11
+    
+    xk=xk+0.5;
+    yk=yk;
+    pause(1/11)
+    set(strelicaa,'x',xk,'y',yk)
+end
+
+for i=1:11
+   
+    xk=xk-0.5;
+    yk=yk;
+    pause(2/11)
+    set(strelicaa,'x',xk,'y',yk,'facecolor','blue');
+end
+
+16. sunce koje se rotira 
+t=0:pi/50:2*pi;
+x=cos(t);
+y=sin(t);
+krug=patch(x,y,'w');
+axis([-2 2 -2 2]);
+
+x1=[-0.225 0.225 0];
+y1=[1.2 1.2 1.5];
+trokut1=patch(x1,y1,'w');
+
+x2=[-0.225 0.225 0];
+y2=[-1.2 -1.2 -1.5];
+trokut2=patch(x2,y2,'w');
+
+x3=[1.2 1.2 1.5];
+y3=[0.225 -0.225 0];
+trokut3=patch(x3,y3,'w');
+
+x4=[-1.2 -1.2 -1.5];
+y4=[0.225 -0.225 0];
+trokut4=patch(x4,y4,'w');
+
+x5=[0.90 1 0.6];
+y5=[0.65 1.1 1];
+trokut5=patch(x5,y5,'w');
+
+x6=[0.90 1 0.6];
+y6=[-0.65 -1.1 -1];
+trokut6=patch(x6,y6,'w');
+
+x7=[-0.9 -1 -0.6];
+y7=[0.65 1.1 1];
+trokut7=patch(x7,y7,'w');
+
+x8=[-0.9 -1 -0.6];
+y8=[-0.65 -1.1 -1];
+trokut8=patch(x8,y8,'w');
+
+suncee=[krug trokut1 trokut2 trokut3 trokut4 trokut5 trokut6 trokut7 trokut8];
+
+for i=1:60
+    rotate(suncee, [0 0 1], 30, [0 0 0]);
+   pause(2/60);
+end
+
+17.trokut
+close all
+clc
+x1=[6 8 7 ]
+y1=[3 3 2]
+trougao=patch(x1,y1,'r')
+x11=x1
+y11=y1
+axis([3 8 -1 3])
+for i=1:30
+    x11=x11-0.1
+    y11=y11;
+    set(trougao,'x',x11,'y',y11)
+    pause(3/30)
+end
+
+a=x11+1
+b=y11-0.5
+for i=1:30
+    x11=x11+0.1
+    y11=y11-0.1;
+  set(trougao,'x',x11,'y',y11)
+    pause(3/30)
+   
+end
+
+for i=1:30
+         rotate(trougao,[0 0 1],6,[7,-0.5,0])
+         pause (0.1)
+end
+
+x11=[6 8 7]
+y11=[-1 -1 0]
+for i=1:30
+    x11=x11-0.1
+    y11=y11;
+    set(trougao,'x',x11,'y',y11)
+    pause(2/30)
+end
+for i=1:30
+    x11=x11+0.1
+    y11=y11+0.1;
+    set(trougao,'x',x11,'y',y11)
+    pause(2/30)
+end
+
+for i=1:30
+      rotate(trougao,[0 0 1],6,[7,2.5,0])
+      pause (1/30)
+end    
+
+18. Nacrtati proizvoljan objekat u programskom jeziku MATLAB, također uzeti proizvoljno vrijeme
+kretanja i dužinu pomjeranja, pri tome koristiti naredbe za animacije kao što su set, rotate,
+getframe I movie.
+
+U sklopu rješenja biće nacrtan četverougao i izvršeno njegovo pomjeranje u smjeru X-ose za
+njegovu dužinu u vremenu od 8 sekundi. Odmah nakon toga će se pomjerati u smjeru Y-ose za
+tri njegove dužine u vremenu od dvije sekunde, te se nakon toga vraća u početni položaj u
+vremenu od dvije sekunde. Također ću nacrtati plohu z = sin(2*(x^2)+y^2) i izvršiti njenu
+rotaciju za dva kruga u vremenu od tri sekunde.
+subplot(211)
+t = (1/10:1/5:1)*2*pi; %cetverougao
+x = sin(t); %duzina stranice je 2cm
+y = cos(t);
+h=fill(x,y,'b'); %naredbom fill crtamo cetverougao
+axis([-2 8 -2 8])
+x1=x;
+y1=y;
+for i=1:20 %s for petljom zelimo da postignemo detaljno kretanje objekta, ne zelimo da naglo
+predje s jedne tacke u drugu.
+x1=x1+0.1; %njegova duzina je 2cm, ako zelimo po x osi da se pomjeri za svoju dužinu
+dodajemo 0.1, jer 20*0.1=2, tacna duzina cetverougla
+y1=y1; %po y-osi drzimo konstantu
+pause(0.4) %naredba za vremensko kontrolisanje kretanja, zadaje se u sekundama, kada
+pomnožimo 0.4 sekunde da sa 20 (for petlja) dobijemo tacno 8 sekundi, koliko se i treba
+pomjeriti
+set(h,'x',x1,'y',y1) %naredbom set vrsimo pomjeranje tog objekta, h je ime objekta,a x1 i y1 su
+ose
+end
+for i=1:20 %opet petlja ide u 20 koraka, detaljan prikaz pomjeranja
+x1=x1; %po x-u ostaje nepromjenjena duzina
+y1=y1+6/20; %y-se pomjera za 3 njegove duzine po y osi,njegova duzina je 2 I pomnozeno s tri
+pomjeraja dobijemo 6, moramo to podijeliti s brojem tacaka
+pause(0.1) %vremenski kada pomnozimo 0.1 sa 20 dobijemo 2 sekunde u kojima se mora kretati
+po y osi
+set(h,'x',x1,'y',y1) %pomjeramo sad ovaj put po y osi
+end
+for i=1:20
+x1=x1-2/20; % po x smo pomjerili za 2cm,tj njegovu dužinu,zato sad to i vracamo nazad
+y1=y1-6/20; % po y smo pomjerili za 3 njegove duzine, te taj dio i oduzimamo
+pause(0.1) %ako pomnozimo 20 sa 0.1 dobit cemo te dvije sekunde za koje se mora vratiti u
+pocetni polozaj
+
+4
+
+set(h,'x',x1,'y',y1) %vrsi pomjeranje
+end
+[x, y] = meshgrid([-2 : 0.1 : 2]); %formiramo mrezu od ulaznih vrijednosti, u okviru od -2 do 2,
+s korakom 0.1
+z = sin(2.*(x.^2) + (y.^2)); %funkcija koju rotiramo
+subplot(2,1,2),k=surf(x,y,z) %crtanje funkcije
+axis tight
+for i=1:100
+zdir = [0 0 1]; %okrece se po z osi
+center = [0 0 0]; %centar u koordinatnom pocetku
+rotate(k,zdir,7.2,center) % iscrtava plohu pod nazivom k, okrece je po z osi ,pod uglom 7.2 i
+centar je u koordinatnom pocetku
+pause(3/100) %da dobijemo 3 sekunde dijelimo s ukupnim brojem for petlje
+end
+
+19. Kod kojim korisnik unosi prvo tekst, pa kljucnu rijec koja se pretrazuje, i onda program izbacuje koliko se puta ta rijec ponavlja, te koliko je upitnih i uzvicnih recenica.
+
+tekst=input('Unesite tekst: ','s');
+pretraga=input('Unesite termin za pretragu: ','s');
+fprintf('Unijeti tekst izgleda ovako: %s',tekst)
+fprintf('\nTermin za pretragu je %s.\n Dakle taj termin se ',pretraga)
+nizmjesta=findstr(tekst,pretraga);
+brojponavljanja=length(nizmjesta);
+fprintf('ponavlja %g puta i to na indeksima: \n',brojponavljanja)
+fprintf('%g',nizmjesta)
+indeksi_praznih_mjesta=findstr(tekst,' ');
+broj_praznih_mjesta=length(indeksi_praznih_mjesta);
+disp('Broj praznih mjesta: ')
+disp(broj_praznih_mjesta)
+%koliko rečenica,kolikoupitnih,izjavnih,uzvicnih
+%broj rijeci u tekstu
+tekst=strtrim(tekst);
+indeksi_izjavnih=findstr(tekst,'.');
+indeksi_upitnih=findstr(tekst,'?');
+indeksi_uzvicnih=findstr(tekst,'!');
+broj_izjavnih=length(indeksi_izjavnih);
+broj_upitnih=length(indeksi_upitnih);
+broj_uzvicnih=length(indeksi_uzvicnih);
+broj_recenica=broj_izjavnih+broj_upitnih+broj_uzvicnih;
+broj_rijeci=broj_praznih_mjesta+1;
+disp('Izjavnih recenica ima: ')
+disp(broj_izjavnih)
+disp('Upitnih recenica ima: ')
+disp(broj_upitnih)
+disp('Uzvicnih recenica ima: ')
+disp (broj_uzvicnih)
+
+20. Nacrtati proizvoljan objekat u programskom jeziku MATLAB, također uzeti proizvoljno vrijeme kretanja i dužinu pomjeranja, pri tome koristiti naredbe za animacije kao što su set, rotate, getframe I movie.
+
+U sklopu rješenja biće nacrtan četverougao i izvršeno njegovo pomjeranje u smjeru X-ose za njegovu dužinu u vremenu od 8 sekundi. Odmah nakon toga će se pomjerati u smjeru Y-ose za tri njegove dužine u vremenu od dvije sekunde, te se nakon toga vraća u početni položaj u vremenu od dvije sekunde. Također ću nacrtati plohu z = sin(2*(x^2)+y^2) i izvršiti njenu rotaciju za dva kruga u vremenu od tri sekunde.
+ subplot(211)
+t = (1/10:1/5:1)*2*pi;  %cetverougao
+x = sin(t);  %duzina stranice je 2cm
+y = cos(t);
+h=fill(x,y,'b'); %naredbom fill crtamo cetverougao
+axis([-2 8 -2 8])
+x1=x;
+y1=y;
+for i=1:20 %s for petljom zelimo da postignemo detaljno kretanje objekta, ne zelimo da naglo predje s jedne tacke u drugu.
+x1=x1+0.1; %njegova duzina je 2cm, ako zelimo po x osi da se pomjeri za svoju dužinu dodajemo 0.1, jer 20*0.1=2, tacna duzina cetverougla
+y1=y1; %po y-osi drzimo konstantu
+pause(0.4) %naredba za vremensko kontrolisanje kretanja, zadaje se u sekundama, kada pomnožimo 0.4 sekunde da sa 20 (for petlja) dobijemo tacno 8 sekundi, koliko se i treba pomjeriti
+set(h,'x',x1,'y',y1) %naredbom set vrsimo pomjeranje tog objekta, h je ime objekta,a x1 i y1 su ose
+end
+ 
+for i=1:20 %opet petlja ide u 20 koraka, detaljan prikaz pomjeranja
+x1=x1; %po x-u ostaje nepromjenjena duzina
+y1=y1+6/20; %y-se pomjera za 3 njegove duzine po y osi,njegova duzina je 2 I pomnozeno s tri pomjeraja dobijemo 6, moramo to podijeliti s brojem tacaka
+pause(0.1) %vremenski kada pomnozimo 0.1 sa 20 dobijemo 2 sekunde u kojima se mora kretati po y osi
+set(h,'x',x1,'y',y1) %pomjeramo sad ovaj put po y osi
+end
+ 
+for i=1:20
+x1=x1-2/20; % po x smo pomjerili za 2cm,tj njegovu dužinu,zato sad to i vracamo nazad 
+y1=y1-6/20; % po y smo pomjerili za 3 njegove duzine, te taj dio i oduzimamo
+pause(0.1) %ako pomnozimo 20 sa 0.1 dobit cemo te dvije sekunde za koje se mora vratiti u pocetni polozaj
+set(h,'x',x1,'y',y1) %vrsi pomjeranje
+end
+ 
+[x, y] = meshgrid([-2 : 0.1 : 2]); %formiramo mrezu od ulaznih vrijednosti, u okviru od -2 do 2, s korakom 0.1
+z = sin(2.*(x.^2) + (y.^2)); %funkcija koju rotiramo
+subplot(2,1,2),k=surf(x,y,z) %crtanje funkcije
+axis tight
+for i=1:100
+zdir = [0 0 1]; %okrece se po z osi
+center = [0 0 0]; %centar u koordinatnom pocetku
+rotate(k,zdir,7.2,center) % iscrtava plohu pod nazivom k, okrece je po z osi ,pod uglom 7.2 i centar je u koordinatnom pocetku
+pause(3/100) %da dobijemo 3 sekunde dijelimo s ukupnim brojem for petlje
+end
+
+
+
+
+Matrice
+
+1.
+clear all
+close all
+m=input('Unesi broj redova prve matrice: ');
+n=input('Unesi broj kolona prve matrice: ');
+for i=1:m
+    for j=1:n
+        A(i,j)=input('Unesi elemente prve matrice: ');
+    end
+end
+
+k=input('Unesi broj redova druge matrice: ');
+l=input('Unesi broj kolona druge matrice: ');
+for i=1:k
+    for j=1:l
+        B(i,j)=input('Unesi elemente druge matrice: ');
+    end
+end
+
+if m==k && n==l && m==l
+    disp('Matrice se mogu pomnoziti!');
+    C=A*B;
+elseif size(A)==size(B)
+    disp('Matrice se mogu oduzeti!');
+    D=A-B;
+else 
+    disp('Matrice se ne mogu ni pomnoziti ni oduzeti!');
+end
+
+disp('Matrica A: ')
+A
+disp('Matrica B: ')
+B
+if m==l
+disp('Proizvod dvije matrice: ')
+C
+else
+disp('Razlika dvije matrice: ')
+D
+end
+    
+
+2.
+s1 = 'abcdefghijklmnopqrstuvwxyz';
+s2 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+red = input('Unesite broj redova matrice: ');
+kolona = input('Unesite broj kolona matrice: ');
+
+for i=1:red
+    for j=1:kolona
+        matrica(i,j) = input('Unesite clan matrice: ');
+    end
+end
+
+disp('Matrica: '); disp(matrica);
+niz = matrica(:)';
+disp('Niz: '); disp(niz);
+velicina = size(niz);
+for i=1:velicina(2)
+    index = niz(i);
+    if index<26
+        novi(i) = s1(index);
+        [novi ' ' novi(i)];
+    else
+        novi(i) = s2(index-26);
+        [novi ' ' novi(i)];
+    end
+end
+
+disp('Pretvorba niza u slova: '); disp(novi);
+
+
+3.
+clear
+clc
+a=input('Unesite broj redova prve matrice: ');
+b=input('Unesite broj kolona prve matrice: ');
+disp('Unesite elemente prve matrice');
+for i=1:a
+    for j=1:b
+        A(i,j)=input(' ');
+    end
+end
+
+c=input('Unesite broj redova druge matrice: ');
+d=input('Unesite broj kolona druge matrice: ');
+disp('Unesite elemente druge matrice');
+for i=1:c
+    for j=1:d
+        B(i,j)=input(' ');
+    end
+end
+
+A
+B
+
+if b==c
+    C=A*B;
+    disp('Matrice se mogu pomnoziti');
+    C
+
+elseif a==c && b==d
+    D=A-B;
+    disp('Matrice se mogu oduzeti');
+    D
+
+else
+    disp('Matrice se ne mogu ni mnoziti ni oduzimati');
+end
+
+
+4.
+clc
+clear
+m1=input('Unesite broj redova matrice A: ');
+n1=input('Unesite broj kolona matrice A: ');
+
+for i=1:m1
+    for j=1:n1
+        A(i,j)=input('Unesite elemente matrice A: ');
+    end
+end
+
+m2=input('Unesite broj redova matrice B: ');
+n2=input('Unesite broj kolona matrice B: ');
+
+for i=1:m2
+    for j=1:n2
+        B(i,j)=input('Unesite elemente matrice B: ');
+    end
+end
+
+x1=size(A);
+y1=size(B);
+if (x1==y1)
+    C=A+B;
+    disp ('Zbir matrica A i B je: ')
+    disp(C)
+else
+    disp ('Matrice nisu jednake velicine, ne mogu se sabirati')
+end
+
+if (m1==n2)
+    D=A*B;
+    disp('Proizvod matrica je: ')
+    disp (D)
+else 
+    disp('Matrice nisu ulancane, ne mgu se mnoziti')
+end
+
+if (x1==y1)
+    A
+    B
+    for i=1:m2
+        for j=1:n2
+            if (i==j)
+                E(i,j)=1;
+            else if (j>i)
+                    E(i,j)=A(i,j);
+                else
+                    E(i,j)=B(i,j);
+                end
+            end
+        end
+        E
+    end
+else
+    disp ('Matrice nisu jednake')
+end
+
+
+5.
+clear all
+close all
+niz=[];
+n=input('Unesi broj clanova niza: ');
+for i=1:n
+    niz(i)=input('Unesi elemente niza: ');
+end
+
+dimenzija=floor(sqrt(length(niz)));
+matrica=[];
+k=1;
+
+for i=1:dimenzija
+    for j=1:dimenzija
+        matrica(i,j)=niz(k);
+        k=k+1;
+    end
+end
+
+inverzna=inv(matrica);
+proizvod=matrica*inverzna;
+
+disp('Ulazni niz je: ')
+niz
+disp('Dobijena matrica je: ')
+matrica
+disp('Njena inverzna matrica je: ')
+inverzna
+disp('Rezultat mnozenja te dvije matrice je: ')
+proizvod
+
+
+6. Osam brojeva
+clear all
+close all
+N=[];
+br=input('Upis ');
+N=[N br];
+for i=1:7
+    br=input('Upis ');
+    for j=1:i
+        if br==N(j)
+            br=input('Nepravilan unos, pokusajte ponovo ');
+        end
+    end
+    N=[N br];
+end
+
+N1=sort(N,'descend');
+Z=1;
+for i=1:4
+    for j=1:2
+        M(i,j)=N1(Z)
+        Z=Z+1;
+    end
+end
+disp('Ispis: ');
+M
+
+
+7.Studenti i ocjene 
+clear all
+close all
+broj=input('Unesite broj studenata koji su polagali ispit ');
+sestice = 0; sedmice = 0; osmice = 0; devetke = 0; desetke = 0;
+for i=1:broj
+    ime = input('Unesite ime ', 's');
+    prezime = input('Unesite prezime ', 's');
+    ocjena = input('Unesite ocjenu ');
+    switch ocjena
+        case 6
+        sestice = sestice+1;
+        case 7
+        sedmice = sedmice+1;
+        case 8
+        osmice = osmice+1;
+        case 9
+        devetke = devetke+1;
+        case 10
+        desetke = desetke+1;
+        otherwise
+        ocjena = input('Unijeli ste pogresnu ocjenu, unesite opet ');
+    end
+end
+fprintf('Sestica ima %d, sedmica %d, osmica %d, devetki %d, desetki %d ', sestice, sedmice, osmice, devetke, desetke);
+
+
+
+JOS NEKI ZADACI:
+1.-----------------------------
+interval = 0:0.05:pi;
+y=sin(interval);
+pravac = (interval)/2;
+
+subplot(2,2,1);
+plot(interval,y);
+title('sinusna');
+grid on;
+subplot(2,2,2);
+plot(interval,pravac);
+title('pravac');
+grid on;
+
+subplot(2,2,[3 4]);
+plot(interval,y);
+hold on;
+plot(interval, pravac);
+title('obje');
+grid on;
+
+2.-----------------------------
+clear all;
+clc;
+Korisnici(1).ime = 'Ema';
+
+Korisnici(1).prezime = 'Saric';
+Korisnici(1).nadimak = 'Em';
+Korisnici(1).godine = 24;
+Korisnici(2).ime = 'Ajdin';
+Korisnici(2).prezime = 'Mujic';
+Korisnici(2).nadimak = 'Dino';
+Korisnici(2).godine = 32;
+Korisnici(3).ime = 'Sabina';
+Korisnici(3).prezime = 'Salkic';
+Korisnici(3).nadimak = 'Bina';
+Korisnici(3).godine = 32;
+Korisnici(4).ime = 'Danijel';
+Korisnici(4).prezime = 'Odic';
+Korisnici(4).nadimak = 'Dani';
+Korisnici(4).godine = 18;
+n = 4;
+
+unos = 'q';
+while(unos~='f')
+unos=input('unesi od a b c d e, f za izlaz ','s');
+if(unos == 'a')
+for i=1:n
+fprintf('%s\n',Korisnici(i).ime);
+end
+end
+
+if(unos == 'b')
+for i=1:n
+fprintf('%s\n',Korisnici(i).prezime);
+end
+end
+if(unos == 'c')
+for i=1:n
+fprintf('%s\n',Korisnici(i).nadimak);
+end
+end
+if(unos == 'd')
+for i=1:n
+fprintf('%d\n',Korisnici(i).godine);
+end
+end
+if(unos == 'e')
+for i=1:n
+fprintf('%s %s %s
+%d\n',Korisnici(i).ime,Korisnici(i).prezime,Korisnici(i).nadimak,Korisnici(i).godine);
+end
+end
+end
+
+3.-----------------------------------------------------------
+a = input('unesi prvu stranicu a\n');
+b = input('unesi prvu stranicu b\n');
+
+c = input('unesi prvu stranicu c\n');
+s = (a+b+c)/2;
+area = sqrt(s.*(s-a).*(s-b).*(s-c))
+
+4.--------------------------------------------------------
+clear all;
+clc;
+dan = input('Unesi dan\n');
+t = datetime(2018,03,dan);
+d = day(t,'dayofweek');
+
+switch(d)
+case 1
+fprintf('Nedjelja\n');
+case 2
+fprintf('Ponedjeljak\n');
+case 3
+fprintf('Utorak\n');
+case 4
+fprintf('Srijeda\n');
+case 5
+fprintf('Cetvrtak\n');
+case 6
+fprintf('Petak\n');
+case 7
+
+fprintf('Subota\n');
+otherwise eror('greska');
+end
+
+5.----------------------------------------------------
+n = input('unesi broi od 10 do 50 (n)');
+m = input('unesi broi od 10 do 50 (m)');
+
+if(n<10 | n>50 | m<10 | m>50)
+error('brojevi moraju biti od 10 do 50');
+end
+
+for i=n:m
+if(mod(i,2)==0)
+kub=i^3
+end
+end
+
+6.-------------------------------
+m = input('unesi broj redova\n');
+n = input('unesi broj kolona\n');
+pom = 1;
+pom2 = 1;
+zb = 0;
+od = 0;
+
+for i=1:m
+for j=1:n
+A(i,j)=input('unesi element\n');
+if(i>j)
+pom2=pom2*A(i,j);
+end
+if(i<j)
+pom=pom*A(i,j);
+end
+if(i==j & mod(A(i,j),2)==0)
+zb=zb+A(i,j);
+end
+if(i==j & A(i,j)<0)
+od=od-A(i,j);
+end
+end
+end
+
+pom
+(A(2,1)*A(2,1))/pom2
+zb
+od
+
+7. ---------------------------------------
+clear all;
+clc;
+x = 0:0.1:10;
+z = 0:0.1:10;
+y = sin(x);
+b = 1:10;
+p = [1 4 6];
+
+subplot(421);
+plot(x,y);
+grid on;
+
+subplot(422);
+stem(x,y);
+grid on;
+
+subplot(423);
+plot3(x,y,z);
+grid on;
+
+subplot(424);
+stem3(x,y,z);
+grid on;
+
+subplot(425);
+bar(b,0.5);
+grid on;
+
+subplot(426);
+bar3(b,0.5);
+grid on;
+
+subplot(427);
+pie(p);
+
+subplot(428);
+pie3(p);
+
+8.----------------------------
+clear all;
+clc;
+imali(205)=0;
+for i=1:12
+unesen = 0;
+while(unesen==0)
+a = input('unesi broj\n');
+if(imali(a+100))
+fprintf('vec uneseno\n');
+else
+
+unesen=1;
+imali(a+100)=1;
+niz(i)=a;
+end
+end
+end
+niz=sort(niz,'descend');
+
+for i=1:12
+fprintf('%d ',niz(i));
+if(mod(i,3)==0)
+fprintf('\n');
+end
+end
+
+9. ------------------------
+A = [3 5 -3 8; 3 -5 -3 8; 1 8 9 -2; 3 0 0 8];
+B = [9; 9; 16; 13];
+x = linsolve(A,B)
+
+10.----------------
+clear all
+clc
+[x,y] = meshgrid(-2:2,-2:2);
+z = x*exp(-x.^2-y.^2);
+
+subplot(5,1,1);
+contour3(x,y,z);
+colormap spring;
+colorbar
+grid off
+
+subplot(5,1,2);
+surf(x,y,z);
+
+subplot(5,1,3);
+mesh(x,y,z);
+
+subplot(5,1,4);
+ezsurf(' x.*exp(-x.^2-y.^2)',[-2 2 -2 2]);
+
+subplot(5,1,5);
+ezmesh(' x.*exp(-x.^2-y.^2)', [-2 2 -2 2]);
+
+11. ----------------------------------
+clear all;
+clc;
+x = [0 3 3 0];
+y = [0 0 3 3];
+z = [0 0 0 0];
+
+patch(x,y,z,'r');
+hold on;
+x = [0 3 1.5];
+y = [0 0 1.5];
+z = [0 0 4];
+patch(x,y,z,'y');
+hold on;
+x = [3 3 1.5];
+y = [3 0 1.5];
+z = [0 0 4];
+patch(x,y,z,'b');
+hold on;
+x = [0 0 1.5];
+y = [3 0 1.5];
+z = [0 0 4];
+patch(x,y,z,'b');
+hold on;
+x = [0 3 1.5];
+y = [3 3 1.5];
+z = [0 0 4];
+patch(x,y,z,'y');
+hold on;
+visina = 4; %oba zadata u zdt
+baza = 3*3;
+V = visina*baza*(1/3)
+
+stranice = (3/2) * sqrt(1.5^2 + 4^2);
+P = baza + 4*stranice
+
+12. ------------------------------
+m = input('unesi m\n');
+n = input('unesi n\n');
+brojac=1;
+for i=1:m
+for j=1:n
+A(i,j)=input('unesi element matrice ');
+if(A(i,j)<=26)
+niz(brojac)='a'+A(i,j)-1;
+end
+if(A(i,j)>26)
+niz(brojac)='A'+A(i,j)-27;
+end
+brojac=brojac+1;
+end
+end
+for i=1:m*n
+fprintf('%c ',niz(i));
+end
+
+13.----------------
+[x,y]=meshgrid(0:0.1:10*pi,0:0.1:10*pi);
+z=(cos(x)).^2+(sin(y)).^3;
+
+subplot(2,3,1);
+surf(x,y,z);
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba surf');
+
+subplot(2,3,2);
+mesh(x,y,z);
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba mesh');
+
+subplot(2,3,3);
+contour3(x,y,z,30);
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba contour3');
+
+subplot(2,3,[4,5,6]);
+x1=0:0.1:10*pi;
+y1=0:0.1:10*pi;
+z1=cos(x1).^2 +sin(y1).^3;
+s=50;
+c=linspace(1,1000,length(x1))
+scatter3(x1,y1,z1,s,c)
+xlabel('x osa');
+ylabel('y osa');
+zlabel('z osa');
+title('Naredba scatter3');
+
+14.-------------------
+clc;
+clear all;
+n = input('unesite broj korisnika\n');
+for i=1:2
+for j=1:n
+if(i==1)
+fprintf('Unesite ime %d-og korisnika: ',j);
+Korisnici(j).ime = input('','s');
+end
+if(i==2)
+fprintf('Unesite broj telefona %d-og korisnika\n',j);
+zb=0;
+
+for brojac=1:9
+prosao = 0;
+while(prosao==0)
+xb = input('');
+if(xb<0 | xb>9)
+fprintf('pogresan unos, unesi tu cifru ponovo\n');
+end
+if(xb>=0 && xb<=9)
+prosao=1;
+zb = zb+xb;
+end
+end
+end
+Korisnici(j).broj = zb;
+end
+end
+end
+opcija = input('odaberi opciju\n');
+fprintf('korisnik je %s i ima vrijednost %d', Korisnici(opcija).ime, Korisnici(opcija).broj);
+
+
+
